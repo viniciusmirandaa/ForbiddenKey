@@ -59,7 +59,6 @@ public class UserService implements UserDetailsService {
 	public UserDTO update(Long id, UserDTO user) {
 		try {
 			var entity = userRepository.getReferenceById(id);
-			BeanUtils.copyProperties(user, entity);
 			entity = userRepository.save(entity);
 			return new UserDTO(entity);
 		} catch (EntityNotFoundException e) {

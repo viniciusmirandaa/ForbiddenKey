@@ -16,6 +16,8 @@ public class User extends DomainEntity implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
 
+	private String firstName;
+	private String lastName;
 	@Column(unique = true)
 	private String email;
 	private String password;
@@ -58,9 +60,9 @@ public class User extends DomainEntity implements UserDetails {
 		this.password = password;
 	}
 
-	public User(Long id, String email, String password) {
-		super();
-		this.id = id;
+	public User(String firstName, String lastName, String email, String password) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
 	}
@@ -72,6 +74,22 @@ public class User extends DomainEntity implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())).collect(Collectors.toList());
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	@Override

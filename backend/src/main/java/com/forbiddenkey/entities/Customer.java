@@ -8,8 +8,6 @@ import java.time.LocalDate;
 @Table(name = "tb_customer")
 public class Customer extends DomainEntity{
 
-    private String firstName;
-    private String lastName;
     private String cpf;
     private LocalDate birthDate;
     private String phone;
@@ -21,29 +19,11 @@ public class Customer extends DomainEntity{
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String cpf, LocalDate birthDate, String phone, User customerUser) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Customer(String cpf, LocalDate birthDate, String phone, User customerUser) {
         this.cpf = cpf;
         this.birthDate = birthDate;
         this.phone = phone;
         this.customerUser = customerUser;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public User getCustomerUser() {

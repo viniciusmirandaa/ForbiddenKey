@@ -2,7 +2,11 @@ package com.forbiddenkey.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.forbiddenkey.entities.Customer;
+import org.hibernate.validator.constraints.br.CPF;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.PastOrPresent;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -10,12 +14,16 @@ import java.time.LocalDate;
 public class CustomerDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private static final String ERROR_MESSAGE = "Por favor, preencha com dados válidos todos os campos obrigatórios abaixo.";
 
     private Long id;
     private String firstName;
     private String lastName;
+    @NotBlank(message = ERROR_MESSAGE)
+    @CPF(message = ERROR_MESSAGE)
     private String cpf;
     @JsonFormat(pattern="dd-MM-yyy")
+    @PastOrPresent(message = ERROR_MESSAGE)
     private LocalDate birthDate;
     private String phone;
     private Long user;
@@ -35,12 +43,12 @@ public class CustomerDTO implements Serializable {
 
     public CustomerDTO(Customer entity) {
         this.id = entity.getId();
+        this.firstName = entity.getUser().getFirstName();
+        this.lastName = entity.getUser().getLastName();
         this.cpf = entity.getCpf();
         this.birthDate = entity.getBirthDate();
         this.phone = entity.getPhone();
         this.user = entity.getUser().getId();
-        this.firstName = entity.getFirstName();
-        this.lastName = entity.getLastName();
     }
 
     public String getFirstName() {

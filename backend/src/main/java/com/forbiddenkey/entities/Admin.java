@@ -6,8 +6,6 @@ import javax.persistence.*;
 @Table(name = "tb_admin")
 public class Admin extends DomainEntity {
 
-    private String firstName;
-    private String lastName;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User adminUser;
@@ -15,8 +13,16 @@ public class Admin extends DomainEntity {
     public Admin() {
     }
 
-    public Admin(User user) {
-        this.adminUser = user;
+    public Admin(User adminUser) {
+        this.adminUser = adminUser;
+    }
+
+    public User getAdminUser() {
+        return adminUser;
+    }
+
+    public void setAdminUser(User adminUser) {
+        this.adminUser = adminUser;
     }
 
     public User getUser() {

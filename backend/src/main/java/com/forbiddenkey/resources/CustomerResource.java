@@ -3,6 +3,7 @@ package com.forbiddenkey.resources;
 import com.forbiddenkey.dto.CustomerDTO;
 import com.forbiddenkey.dto.UserDTO;
 import com.forbiddenkey.dto.UserInsertDTO;
+import com.forbiddenkey.dto.UserUpdateDTO;
 import com.forbiddenkey.entities.Role;
 import com.forbiddenkey.repositories.RoleRepository;
 import com.forbiddenkey.repositories.UserRepository;
@@ -21,7 +22,6 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.Optional;
 
-@SuppressWarnings("ALL")
 @RestController
 @RequestMapping(value = "/customers")
 public class CustomerResource {
@@ -50,8 +50,7 @@ public class CustomerResource {
     @PostMapping
     public ResponseEntity<CustomerDTO> insert(@Valid @RequestBody UserInsertDTO dto) {
         var role = roleRepository.findByRole("ROLE_CUSTOMER");
-        var entity = userService.insert(dto, role);
-        var customerDTO = customerService.insert(entity);
+        var customerDTO = customerService.insert(userService.insert(dto, role));
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(customerDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
@@ -59,6 +58,12 @@ public class CustomerResource {
     @PutMapping
     public ResponseEntity<CustomerDTO> update(@Valid @RequestBody CustomerDTO dto){
         var entity = customerService.update(dto);
+        return ResponseEntity.ok().body(entity);
+    }
+
+    @PutMapping(value = "/password")
+    public ResponseEntity<UserDTO> updatePassword(@Valid @RequestBody UserUpdateDTO dto){
+        var entity = userService.update(customerService.currentCustomerLogged().getUser().getId(), dto);
         return ResponseEntity.ok().body(entity);
     }
 }
