@@ -2,13 +2,16 @@ package com.forbiddenkey.entities;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "tb_customer")
 public class Customer extends DomainEntity{
 
+    private String firstName;
+    private String lastName;
     private String cpf;
-    private Instant birthDate;
+    private LocalDate birthDate;
     private String phone;
 
     @ManyToOne
@@ -18,11 +21,37 @@ public class Customer extends DomainEntity{
     public Customer() {
     }
 
-    public Customer(String cpf, Instant birthDate, String phone, User user) {
+    public Customer(String firstName, String lastName, String cpf, LocalDate birthDate, String phone, User customerUser) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.cpf = cpf;
         this.birthDate = birthDate;
         this.phone = phone;
-        this.customerUser = user;
+        this.customerUser = customerUser;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public User getCustomerUser() {
+        return customerUser;
+    }
+
+    public void setCustomerUser(User customerUser) {
+        this.customerUser = customerUser;
     }
 
     public String getPhone() {
@@ -49,11 +78,11 @@ public class Customer extends DomainEntity{
         this.cpf = cpf;
     }
 
-    public Instant getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Instant birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 }

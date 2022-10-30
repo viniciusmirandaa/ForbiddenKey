@@ -6,6 +6,8 @@ import javax.persistence.*;
 @Table(name = "tb_admin")
 public class Admin extends DomainEntity {
 
+    private String firstName;
+    private String lastName;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User adminUser;

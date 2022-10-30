@@ -7,7 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import com.forbiddenkey.entities.Role;
 
+import java.util.Optional;
+
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
+    @Query(value = "SELECT * FROM TB_ROLE WHERE AUTHORITY = :role_customer", nativeQuery = true)
+    Role findByRole(String role_customer);
 }

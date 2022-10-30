@@ -1,14 +1,17 @@
 package com.forbiddenkey.services;
 
 import com.forbiddenkey.dto.CustomerDTO;
-import com.forbiddenkey.dto.UserInsertDTO;
 import com.forbiddenkey.entities.Customer;
 import com.forbiddenkey.entities.User;
 import com.forbiddenkey.repositories.CustomerRepository;
 import com.forbiddenkey.repositories.UserRepository;
+import com.forbiddenkey.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +23,11 @@ public class CustomerService {
     @Autowired
     private UserRepository userRepository;
 
+    public Page<CustomerDTO> findAll(Pageable pageable) {
+        Page<Customer> page = customerRepository.findAll(pageable);
+        return page.map(CustomerDTO::new);
+    }
+
     public CustomerDTO insert(User user) {
         var customer = new Customer();
         customer.setUser(user);
@@ -27,14 +35,26 @@ public class CustomerService {
         return new CustomerDTO(customer);
     }
 
-    public CustomerDTO currentCustomerLogged(){
-        String principal = SecurityContextHolder.getContext().getAuthentication().getName();
+    public Customer currentCustomerLogged() throws ResourceNotFoundException {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        if (principal != null) {
-            var user = userRepository.findByEmail(principal);
-            var customer = customerRepository.findByUser(user.getId());
-            return new CustomerDTO(customer);
+        if (email != null) {
+            var user = userRepository.findByEmail(email);
+            return customerRepository.findByUser(user.getId());
         }
-        return new CustomerDTO();
+        throw new ResourceNotFoundException("No user found.");
+    }
+
+    public CustomerDTO update(CustomerDTO dto) {
+        var customer = currentCustomerLogged();
+        copyDtoToEntity(dto, customer);
+        customer = customerRepository.save(customer);
+        return new CustomerDTO(customer);
+    }
+
+    public void copyDtoToEntity(CustomerDTO dto, Customer entity) {
+        entity.setPhone(dto.getPhone());
+        entity.setCpf(dto.getCpf());
+        entity.setBirthDate(dto.getBirthDate());
     }
 }

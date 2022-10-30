@@ -37,7 +37,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String[] CLIENT_OR_ADMIN = {"/products/**", "/categories/**", "/developers/**", "/distributors/**"};
 
-    private static final String[] USER = {"/customers/**"};
+    private static final String[] USER = {"/customers/details"};
+
+    private static final String[] ADMIN = {"/customers/**"};
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
@@ -57,6 +59,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, USER).permitAll()
                 .antMatchers(HttpMethod.GET, CLIENT_OR_ADMIN).permitAll()
                 .antMatchers(HttpMethod.GET, USER).hasAnyRole("CUSTOMER")
+                .antMatchers(HttpMethod.PUT, USER).hasAnyRole("CUSTOMER")
                 .antMatchers(CLIENT_OR_ADMIN).hasAnyRole("ADMIN")
                 .anyRequest().hasAnyRole("ADMIN");
     }
