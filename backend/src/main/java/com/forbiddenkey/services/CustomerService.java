@@ -9,10 +9,12 @@ import com.forbiddenkey.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class CustomerService {
@@ -23,11 +25,13 @@ public class CustomerService {
     @Autowired
     private UserRepository userRepository;
 
+    @Transactional(readOnly = true)
     public Page<CustomerDTO> findAll(Pageable pageable) {
         Page<Customer> page = customerRepository.findAll(pageable);
         return page.map(CustomerDTO::new);
     }
 
+    @Transactional
     public CustomerDTO insert(User user) {
         var customer = new Customer();
         customer.setUser(user);
@@ -35,16 +39,16 @@ public class CustomerService {
         return new CustomerDTO(customer);
     }
 
-    public Customer currentCustomerLogged() throws ResourceNotFoundException {
+    @Transactional
+    public Customer currentCustomerLogged() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        if (email != null) {
-            var user = userRepository.findByEmail(email);
-            return customerRepository.findByUser(user.getId());
-        }
-        throw new ResourceNotFoundException("No user found.");
+        var user = userRepository.findByEmail(email);
+        Optional<Customer> obj = customerRepository.findByUser(user.getId());
+        return obj.orElseThrow(() -> new ResourceNotFoundException("No user logged in."));
     }
 
+    @Transactional
     public CustomerDTO update(CustomerDTO dto) {
         var customer = currentCustomerLogged();
         copyDtoToEntity(dto, customer);
