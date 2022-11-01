@@ -27,11 +27,12 @@ public class CustomerDTO implements Serializable {
     private LocalDate birthDate;
     private String phone;
     private Long user;
+    private String email;
 
     public CustomerDTO() {
     }
 
-    public CustomerDTO(Long id, String firstName, String lastName, String cpf, LocalDate birthDate, String phone, Long user) {
+    public CustomerDTO(Long id, String firstName, String lastName, String cpf, LocalDate birthDate, String phone, Long user, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -39,6 +40,7 @@ public class CustomerDTO implements Serializable {
         this.birthDate = birthDate;
         this.phone = phone;
         this.user = user;
+        this.email = email;
     }
 
     public CustomerDTO(Customer entity) {
@@ -49,6 +51,15 @@ public class CustomerDTO implements Serializable {
         this.birthDate = entity.getBirthDate();
         this.phone = entity.getPhone();
         this.user = entity.getUser().getId();
+        this.email = entity.getUser().getEmail();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstName() {

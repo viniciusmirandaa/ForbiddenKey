@@ -12,7 +12,7 @@ public class Customer extends DomainEntity{
     private LocalDate birthDate;
     private String phone;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User customerUser;
 

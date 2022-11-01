@@ -45,7 +45,7 @@ public class CustomerService {
 
         var user = userRepository.findByEmail(email);
         Optional<Customer> obj = customerRepository.findByUser(user.getId());
-        return obj.orElseThrow(() -> new ResourceNotFoundException("No user logged in."));
+        return obj.orElseThrow(() -> new ResourceNotFoundException("No user authenticated."));
     }
 
     @Transactional

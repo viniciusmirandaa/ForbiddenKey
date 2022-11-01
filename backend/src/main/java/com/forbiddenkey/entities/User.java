@@ -26,17 +26,17 @@ public class User extends DomainEntity implements UserDetails {
 	@JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToMany(mappedBy = "adminUser", fetch = FetchType.LAZY)
-	private List<Admin> admin = new ArrayList<>();
+	@OneToOne(mappedBy = "adminUser", fetch = FetchType.LAZY)
+	private Admin admin;
 
-	@OneToMany(mappedBy = "customerUser", fetch = FetchType.LAZY)
-	private List<Customer> customer = new ArrayList<>();
+	@OneToOne(mappedBy = "customerUser", fetch = FetchType.LAZY)
+	private Customer customer;
 
-	public List<Admin> getAdmin() {
+	public Admin getAdmin() {
 		return admin;
 	}
 
-	public List<Customer> getCustomer() {
+	public Customer getCustomer() {
 		return customer;
 	}
 
