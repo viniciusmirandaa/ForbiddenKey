@@ -5,9 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long>{
 
     @Query(value = "SELECT * FROM TB_CUSTOMER WHERE USER_ID = :id", nativeQuery = true)
-    Customer findByUser(Long id);
+    Optional<Customer> findByUser(Long id);
 }

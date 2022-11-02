@@ -13,11 +13,14 @@ public class UserDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	private static final String ERROR_MESSAGE = "Por favor, preencha com dados válidos todos os campos obrigatórios abaixo.";
+
 	private Long id;
-	@NotBlank(message = "Campo obrigatório.")
+	@NotBlank(message = ERROR_MESSAGE)
 	private String firstName;
+	@NotBlank(message = ERROR_MESSAGE)
 	private String lastName;
-	@Email(message = "Digitar um email válido.")
+	@Email(message = ERROR_MESSAGE)
 	private String email;
 
 	private Set<RoleDTO> roles = new HashSet<>();
@@ -29,29 +32,13 @@ public class UserDTO implements Serializable {
 	public UserDTO(Long id, String firstName, String lastName, String email) {
 		super();
 		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
 		this.email = email;
 	}
 
 	public UserDTO(User entity) {
 		this.id = entity.getId();
-		this.firstName = entity.getFirstName();
-		this.lastName = entity.getLastName();
 		this.email = entity.getEmail();
 		entity.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
-	}
-
-	public UserDTO() {
-		super();
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -68,6 +55,18 @@ public class UserDTO implements Serializable {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+
+	public UserDTO() {
+		super();
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getEmail() {

@@ -26,38 +26,22 @@ public class User extends DomainEntity implements UserDetails {
 	@JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
 
-	@OneToMany(mappedBy = "adminUser", fetch = FetchType.LAZY)
-	private List<Admin> admin = new ArrayList<>();
+	@OneToOne(mappedBy = "adminUser", fetch = FetchType.LAZY)
+	private Admin admin;
 
-	@OneToMany(mappedBy = "customerUser", fetch = FetchType.LAZY)
-	private List<Customer> customer = new ArrayList<>();
+	@OneToOne(mappedBy = "customerUser", fetch = FetchType.LAZY)
+	private Customer customer;
 
-	public List<Admin> getAdmin() {
+	public Admin getAdmin() {
 		return admin;
 	}
 
-	public List<Customer> getCustomer() {
+	public Customer getCustomer() {
 		return customer;
 	}
 
 	public Set<Role> getRoles() {
 		return roles;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
 	}
 
 	public String getEmail() {
@@ -76,9 +60,7 @@ public class User extends DomainEntity implements UserDetails {
 		this.password = password;
 	}
 
-	public User(Long id, String firstName, String lastName, String email, String password) {
-		super();
-		this.id = id;
+	public User(String firstName, String lastName, String email, String password) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -92,6 +74,22 @@ public class User extends DomainEntity implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return getRoles().stream().map(role -> new SimpleGrantedAuthority(role.getAuthority())).collect(Collectors.toList());
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	@Override
