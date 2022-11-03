@@ -14,109 +14,118 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_product")
 public class Product extends DomainEntity {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String name;
-	@Column(columnDefinition = "TEXT")
-	private String description;
-	private double price;
-	@ManyToOne
-	@JoinColumn(name = "developer_id")
-	private Developer developer;
-	@ManyToOne
-	@JoinColumn(name = "distributor_id")
-	private Distributor distributor;
-	private Instant launchDate;
-	private String imgUrl;
-	// @ManyToOne
-	// @JoinColumn(name = "specificationGroup_id")
-	// private SpecificationGroup specificationGroup;
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private Set<Category> categories = new HashSet<>();
 
-	public Product() {
-	}
+    private String name;
+    private int quantity;
+    @Column(columnDefinition = "TEXT")
+    private String description;
+    private double price;
+    @ManyToOne
+    @JoinColumn(name = "developer_id")
+    private Developer developer;
+    @ManyToOne
+    @JoinColumn(name = "distributor_id")
+    private Distributor distributor;
+    private Instant launchDate;
+    private String imgUrl;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories = new HashSet<>();
 
-	public Product(String name, String description, double price, Developer developer, Distributor distributor,
-			Instant launchDate, String imgUrl, Set<Category> categories) {
-		super();
-		this.name = name;
-		this.description = description;
-		this.price = price;
-		this.developer = developer;
-		this.distributor = distributor;
-		this.launchDate = launchDate;
-		this.imgUrl = imgUrl;
-		this.categories = categories;
-	}
+    public Product() {
+    }
 
-	public Set<Category> getCategories() {
-		return categories;
-	}
+    public Product(String name, String description, double price, Developer developer, Distributor distributor,
+                   Instant launchDate, String imgUrl, int quantity, Set<Category> categories) {
+        super();
+        this.name = name;
+        this.quantity = quantity;
+        this.description = description;
+        this.price = price;
+        this.developer = developer;
+        this.distributor = distributor;
+        this.launchDate = launchDate;
+        this.imgUrl = imgUrl;
+        this.categories = categories;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public int getQuantity() {
+        return quantity;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public Set<Category> getCategories() {
+        return categories;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Double getPrice() {
-		return price;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getImgUrl() {
-		return imgUrl;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
-	}
+    public Double getPrice() {
+        return price;
+    }
 
-	public Developer getDeveloper() {
-		return developer;
-	}
+    public void setPrice(Double price) {
+        this.price = price;
+    }
 
-	public void setDeveloper(Developer developer) {
-		this.developer = developer;
-	}
+    public String getImgUrl() {
+        return imgUrl;
+    }
 
-	public Distributor getDistributor() {
-		return distributor;
-	}
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
-	public void setDistributor(Distributor distributor) {
-		this.distributor = distributor;
-	}
+    public Developer getDeveloper() {
+        return developer;
+    }
 
-	public Instant getLaunchDate() {
-		return launchDate;
-	}
+    public void setDeveloper(Developer developer) {
+        this.developer = developer;
+    }
 
-	public void setLaunchDate(Instant launchDate) {
-		this.launchDate = launchDate;
-	}
+    public Distributor getDistributor() {
+        return distributor;
+    }
 
-	public void setPrice(double price) {
-		this.price = price;
-	}
+    public void setDistributor(Distributor distributor) {
+        this.distributor = distributor;
+    }
+
+    public Instant getLaunchDate() {
+        return launchDate;
+    }
+
+    public void setLaunchDate(Instant launchDate) {
+        this.launchDate = launchDate;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
 }
