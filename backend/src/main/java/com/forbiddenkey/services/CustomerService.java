@@ -14,16 +14,19 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.Null;
 import java.util.Optional;
 
 @Service
 public class CustomerService {
 
+    private static final String RESOURCE_NOT_FOUND_MESSAGE = "No user authenticated.";
+
     @Autowired
     private CustomerRepository customerRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Transactional(readOnly = true)
     public Page<CustomerDTO> findAll(Pageable pageable) {
@@ -41,11 +44,14 @@ public class CustomerService {
 
     @Transactional
     public Customer currentCustomerLogged() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        var user = userRepository.findByEmail(email);
-        Optional<Customer> obj = customerRepository.findByUser(user.getId());
-        return obj.orElseThrow(() -> new ResourceNotFoundException("No user authenticated."));
+        try {
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            var user = userService.currentUserLogged(email);
+            Optional<Customer> customerObj = customerRepository.findByUser(user.getId());
+            return customerObj.orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NOT_FOUND_MESSAGE));
+        } catch (NullPointerException e) {
+            throw new ResourceNotFoundException(RESOURCE_NOT_FOUND_MESSAGE);
+        }
     }
 
     @Transactional

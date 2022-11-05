@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.forbiddenkey.dto.UserUpdateDTO;
 import com.forbiddenkey.entities.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,10 +43,14 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private RoleRepository roleRepository;
 
+	public User currentUserLogged(String email){
+		return userRepository.findByEmail(email);
+	}
+
 	@Transactional(readOnly = true)
 	public Page<UserDTO> findAll(Pageable pageable) {
 		Page<User> page = userRepository.findAll(pageable);
-		return page.map(user -> new UserDTO(user));
+		return page.map(UserDTO::new);
 	}
 
 	@Transactional(readOnly = true)
@@ -56,9 +61,10 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional
-	public UserDTO update(Long id, UserDTO user) {
+	public UserDTO update(Long id, UserUpdateDTO user) {
 		try {
 			var entity = userRepository.getReferenceById(id);
+			entity.setPassword(passwordEncoder.encode(user.getNewPassword()));
 			entity = userRepository.save(entity);
 			return new UserDTO(entity);
 		} catch (EntityNotFoundException e) {

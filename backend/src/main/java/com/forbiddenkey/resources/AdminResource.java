@@ -1,8 +1,6 @@
 package com.forbiddenkey.resources;
 
-import com.forbiddenkey.dto.AdminDTO;
-import com.forbiddenkey.dto.CustomerDTO;
-import com.forbiddenkey.dto.UserInsertDTO;
+import com.forbiddenkey.dto.*;
 import com.forbiddenkey.repositories.RoleRepository;
 import com.forbiddenkey.services.AdminService;
 import com.forbiddenkey.services.CustomerService;
@@ -12,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.forbiddenkey.dto.UserDTO;
 import com.forbiddenkey.services.UserService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,7 +31,7 @@ public class AdminResource {
 
 	@GetMapping(value = "/details")
 	public ResponseEntity<AdminDTO> findById(){
-		var adminDTO = new AdminDTO(adminService.currentCustomerLogged());
+		var adminDTO = new AdminDTO(adminService.currentAdminLogged());
 		return ResponseEntity.ok().body(adminDTO);
 	}
 
@@ -44,5 +41,11 @@ public class AdminResource {
 		var adminDTO = adminService.insert(userService.insert(dto, role));
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(adminDTO.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+	}
+
+	@PutMapping(value = "/password")
+	public ResponseEntity<UserDTO> updatePassword(@Valid @RequestBody UserUpdateDTO dto){
+		var entity = userService.update(adminService.currentAdminLogged().getUser().getId(), dto);
+		return ResponseEntity.ok().body(entity);
 	}
 }

@@ -3,6 +3,7 @@ package com.forbiddenkey.entities;
 import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_customer")
@@ -11,6 +12,8 @@ public class Customer extends DomainEntity{
     private String cpf;
     private LocalDate birthDate;
     private String phone;
+    @OneToMany(mappedBy = "customer")
+    private List<Cart> carts;
 
     @OneToOne
     @JoinColumn(name = "user_id")
