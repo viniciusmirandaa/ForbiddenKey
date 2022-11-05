@@ -43,6 +43,10 @@ public class UserService implements UserDetailsService {
 	@Autowired
 	private RoleRepository roleRepository;
 
+	public User currentUserLogged(String email){
+		return userRepository.findByEmail(email);
+	}
+
 	@Transactional(readOnly = true)
 	public Page<UserDTO> findAll(Pageable pageable) {
 		Page<User> page = userRepository.findAll(pageable);
@@ -60,7 +64,7 @@ public class UserService implements UserDetailsService {
 	public UserDTO update(Long id, UserUpdateDTO user) {
 		try {
 			var entity = userRepository.getReferenceById(id);
-			entity.setPassword(passwordEncoder.encode(user.getPassword()));
+			entity.setPassword(passwordEncoder.encode(user.getNewPassword()));
 			entity = userRepository.save(entity);
 			return new UserDTO(entity);
 		} catch (EntityNotFoundException e) {

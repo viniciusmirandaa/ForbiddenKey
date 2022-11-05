@@ -8,7 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import com.forbiddenkey.entities.User;
+import com.forbiddenkey.services.AdminService;
+import com.forbiddenkey.services.CustomerService;
+import com.forbiddenkey.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.servlet.HandlerMapping;
 
 import com.forbiddenkey.dto.UserUpdateDTO;
@@ -16,37 +22,43 @@ import com.forbiddenkey.repositories.UserRepository;
 import com.forbiddenkey.resources.exceptions.FieldMessage;
 
 public class UserUpdateValidator implements ConstraintValidator<UserUpdateValid, UserUpdateDTO> {
-	
-	@Autowired
-	private UserRepository repository;
-	
-	@Autowired
-	private HttpServletRequest request;
 
-	@Override
-	public void initialize(UserUpdateValid ann) {
-	}
+    @Autowired
+    private UserRepository repository;
 
-	@Override
-	public boolean isValid(UserUpdateDTO dto, ConstraintValidatorContext context) {
-		
-		@SuppressWarnings("unchecked")
-		var uriVars = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-		long userId = Long.parseLong(uriVars.get("id"));
+    @Autowired
+    private CustomerService customerService;
 
-		List<FieldMessage> list = new ArrayList<>();
+    @Autowired
+    private AdminService adminService;
 
-		var user = repository.findByEmail(dto.getEmail());
-		
-		if (user != null && user.getId() != userId) {
-			list.add(new FieldMessage("email", "o email " + dto.getEmail() +" já é existente."));
-		}
+    @Autowired
+    private UserService userService;
 
-		for (FieldMessage e : list) {
-			context.disableDefaultConstraintViolation();
-			context.buildConstraintViolationWithTemplate(e.getMessage()).addPropertyNode(e.getField())
-					.addConstraintViolation();
-		}
-		return list.isEmpty();
-	}
+    @Autowired
+    private BCryptPasswordEncoder cryptPasswordEncoder;
+
+    @Override
+    public void initialize(UserUpdateValid ann) {
+    }
+
+    @Override
+    public boolean isValid(UserUpdateDTO dto, ConstraintValidatorContext context) {
+
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        List<FieldMessage> list = new ArrayList<>();
+
+        var user = userService.currentUserLogged(email);
+
+        if (!cryptPasswordEncoder.matches(dto.getPassword(), user.getPassword())) {
+            list.add(new FieldMessage("password", "A senha inserida não corresponde com a do usuário."));
+        }
+
+        for (FieldMessage e : list) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate(e.getMessage()).addPropertyNode(e.getField())
+                    .addConstraintViolation();
+        }
+        return list.isEmpty();
+    }
 }

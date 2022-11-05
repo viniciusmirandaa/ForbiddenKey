@@ -11,16 +11,22 @@ import com.forbiddenkey.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 public class AdminService {
+
+    private static final String RESOURCE_NOT_FOUND_MESSAGE = "No user authenticated.";
 
     @Autowired
     private AdminRepository adminRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
+    @Transactional
     public AdminDTO insert(User user) {
         var admin = new Admin();
         admin.setUser(user);
@@ -28,13 +34,15 @@ public class AdminService {
         return new AdminDTO(admin);
     }
 
-    public Admin currentCustomerLogged() throws ResourceNotFoundException {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        if (email != null) {
-            var user = userRepository.findByEmail(email);
-            return adminRepository.findByUser(user.getId());
+    @Transactional
+    public Admin currentAdminLogged() throws ResourceNotFoundException {
+        try {
+            String email = SecurityContextHolder.getContext().getAuthentication().getName();
+            var user = userService.currentUserLogged(email);
+            Optional<Admin> customerObj = adminRepository.findByUser(user.getId());
+            return customerObj.orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NOT_FOUND_MESSAGE));
+        } catch (NullPointerException e) {
+            throw new ResourceNotFoundException(RESOURCE_NOT_FOUND_MESSAGE);
         }
-        throw new ResourceNotFoundException("No user found.");
     }
 }

@@ -26,7 +26,7 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @Transactional(readOnly = true)
     public Page<CustomerDTO> findAll(Pageable pageable) {
@@ -46,7 +46,7 @@ public class CustomerService {
     public Customer currentCustomerLogged() {
         try {
             String email = SecurityContextHolder.getContext().getAuthentication().getName();
-            var user = userRepository.findByEmail(email);
+            var user = userService.currentUserLogged(email);
             Optional<Customer> customerObj = customerRepository.findByUser(user.getId());
             return customerObj.orElseThrow(() -> new ResourceNotFoundException(RESOURCE_NOT_FOUND_MESSAGE));
         } catch (NullPointerException e) {

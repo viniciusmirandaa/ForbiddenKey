@@ -61,8 +61,8 @@ public class CustomerResource {
         return ResponseEntity.ok().body(entity);
     }
 
-    @PutMapping(value = "/password/{id}")
-    public ResponseEntity<UserDTO> updatePassword(@Valid @PathVariable Long id, @RequestBody UserUpdateDTO dto){
+    @PutMapping(value = "/password")
+    public ResponseEntity<UserDTO> updatePassword(@Valid @RequestBody UserUpdateDTO dto){
         var entity = userService.update(customerService.currentCustomerLogged().getUser().getId(), dto);
         return ResponseEntity.ok().body(entity);
     }
