@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
+import com.forbiddenkey.dto.UserUpdateDTO;
 import com.forbiddenkey.entities.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,9 +57,10 @@ public class UserService implements UserDetailsService {
 	}
 
 	@Transactional
-	public UserDTO update(Long id, UserDTO user) {
+	public UserDTO update(Long id, UserUpdateDTO user) {
 		try {
 			var entity = userRepository.getReferenceById(id);
+			entity.setPassword(passwordEncoder.encode(user.getPassword()));
 			entity = userRepository.save(entity);
 			return new UserDTO(entity);
 		} catch (EntityNotFoundException e) {
