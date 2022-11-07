@@ -7,10 +7,7 @@ import com.forbiddenkey.services.CartService;
 import com.forbiddenkey.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -25,7 +22,13 @@ public class CartResource {
     @Autowired
     private CustomerService customerService;
 
-    @PostMapping
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<CartDTO> getById(@PathVariable Long id){
+        var dto = cartService.findById(id);
+        return ResponseEntity.ok().body(dto);
+    }
+
+    @PostMapping(value = "/{id}")
     public ResponseEntity<CartDTO> insert(@PathVariable Long id) {
         var customerDTO = new CustomerDTO(customerService.currentCustomerLogged());
         var cartDTO = cartService.insert(id, customerDTO);

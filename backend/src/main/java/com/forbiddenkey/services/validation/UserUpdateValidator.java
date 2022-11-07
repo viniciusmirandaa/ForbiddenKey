@@ -2,9 +2,7 @@ package com.forbiddenkey.services.validation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -15,7 +13,6 @@ import com.forbiddenkey.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.servlet.HandlerMapping;
 
 import com.forbiddenkey.dto.UserUpdateDTO;
 import com.forbiddenkey.repositories.UserRepository;
