@@ -28,6 +28,7 @@ public class CartDTO implements Serializable {
     }
 
     public CartDTO(Cart entity) {
+        this.id = entity.getId();
         this.customer = entity.getCustomer();
         this.currentCart = entity.getCurrentCart();
         this.totalValue = entity.getTotalValue();

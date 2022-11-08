@@ -3,6 +3,8 @@ package com.forbiddenkey.resources;
 import com.forbiddenkey.dto.CartDTO;
 import com.forbiddenkey.dto.CustomerDTO;
 import com.forbiddenkey.dto.ProductDTO;
+import com.forbiddenkey.entities.Cart;
+import com.forbiddenkey.repositories.CartRepository;
 import com.forbiddenkey.services.CartService;
 import com.forbiddenkey.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +22,13 @@ public class CartResource {
     private CartService cartService;
 
     @Autowired
+    private CartRepository cartRepository;
+
+    @Autowired
     private CustomerService customerService;
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CartDTO> getById(@PathVariable Long id){
+    public ResponseEntity<CartDTO> findById(@PathVariable Long id){
         var dto = cartService.findById(id);
         return ResponseEntity.ok().body(dto);
     }
@@ -31,7 +36,7 @@ public class CartResource {
     @PostMapping(value = "/{id}")
     public ResponseEntity<CartDTO> insert(@PathVariable Long id) {
         var customerDTO = new CustomerDTO(customerService.currentCustomerLogged());
-        var cartDTO = cartService.insert(id, customerDTO);
+        var cartDTO = cartService.cartTotalValue(cartService.insert(id, customerDTO));
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cartDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();

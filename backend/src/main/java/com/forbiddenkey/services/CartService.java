@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,27 +36,32 @@ public class CartService {
 
     @Transactional(readOnly = true)
     public CartDTO findById(Long id) {
-        Optional<Cart> obj = cartRepository.findById(id);
-        var entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-        return new CartDTO(entity);
+        try {
+            var cart = cartRepository.findByIdAndCurrentCartTrue(id);
+            return new CartDTO(cart, cart.getItems());
+        }catch(EntityNotFoundException e){
+            throw new ResourceNotFoundException("Id {" + id + "} not found.");
+        }
     }
+
 
     @Transactional
     public CartDTO insert(Long id, CustomerDTO customerDTO) {
+
         var item = new Item();
+        var cart = new Cart();
+
         Optional<Product> obj = productRepository.findById(id);
         var product = obj.orElseThrow(() -> new ResourceNotFoundException("Id {" + id + "} not found."));
         item.setProduct(product);
-        itemRepository.save(item);
+        item = itemRepository.saveAndFlush(item);
 
-        var cart = new Cart();
         cart.setCustomer(customerRepository.findById(customerDTO.getId()).get());
         cart.setCurrentCart(true);
-        cartRepository.save(cart);
-        item.setCart(cartRepository.findById(cart.getId()).get());
+        cart = cartRepository.saveAndFlush(cart);
+        item.setCart(cart);
         itemRepository.saveAndFlush(item);
-        cartTotalValue(cart);
-        cart = cartRepository.save(cart);
+        cart = cartRepository.saveAndFlush(cart);
 
         return new CartDTO(cart, cart.getItems());
     }
@@ -151,11 +157,14 @@ public class CartService {
 //        return result;
 //    }
 
-    public void cartTotalValue(Cart cart){
+    public CartDTO cartTotalValue(CartDTO cartDTO) {
         double totalValue = 0d;
-        for(Item i: cart.getItems()){
+        var cart = cartRepository.findByIdAndCurrentCartTrue(cartDTO.getId());
+        for (Item i : cart.getItems()) {
             totalValue += i.getProduct().getPrice();
         }
         cart.setTotalValue(totalValue);
+        cart = cartRepository.save(cart);
+        return new CartDTO(cart, cart.getItems());
     }
 }
