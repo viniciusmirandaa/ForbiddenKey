@@ -14,8 +14,6 @@ public class CartDTO implements Serializable {
 
     private Long id;
 
-    private Customer customer;
-
     private List<ItemDTO> items = new ArrayList<>();
 
     private Boolean currentCart;
@@ -28,14 +26,13 @@ public class CartDTO implements Serializable {
     }
 
     public CartDTO(Cart entity) {
-        this.customer = entity.getCustomer();
+        this.id = entity.getId();
         this.currentCart = entity.getCurrentCart();
         this.totalValue = entity.getTotalValue();
     }
 
-    public CartDTO(Long id, Customer customer, Boolean currentCart, Double totalValue) {
+    public CartDTO(Long id, Long customer, Boolean currentCart, Double totalValue) {
         this.id = id;
-        this.customer = customer;
         this.currentCart = currentCart;
         this.totalValue = totalValue;
     }
@@ -46,14 +43,6 @@ public class CartDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
     }
 
     public List<ItemDTO> getItems() {

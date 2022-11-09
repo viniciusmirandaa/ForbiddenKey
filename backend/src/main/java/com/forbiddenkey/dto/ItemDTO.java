@@ -14,9 +14,9 @@ public class ItemDTO implements Serializable {
 
     private Long cart;
 
-    private Long product;
+    private ProductDTO product;
 
-    public ItemDTO(Long id, Long cart, Long product) {
+    public ItemDTO(Long id, Long cart, ProductDTO product) {
         this.id = id;
         this.cart = cart;
         this.product = product;
@@ -25,7 +25,7 @@ public class ItemDTO implements Serializable {
     public ItemDTO(Item entity){
         this.id = entity.getId();
         this.cart = entity.getCart().getId();
-        this.product = entity.getProduct().getId();
+        this.product = new ProductDTO(entity.getProduct());
     }
 
     public Long getId() {
@@ -44,11 +44,11 @@ public class ItemDTO implements Serializable {
         this.cart = cart;
     }
 
-    public Long getProduct() {
+    public ProductDTO getProduct() {
         return product;
     }
 
-    public void setProduct(Long product) {
+    public void setProduct(ProductDTO product) {
         this.product = product;
     }
 }

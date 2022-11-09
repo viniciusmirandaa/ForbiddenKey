@@ -1,5 +1,7 @@
 package com.forbiddenkey.entities;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDate;

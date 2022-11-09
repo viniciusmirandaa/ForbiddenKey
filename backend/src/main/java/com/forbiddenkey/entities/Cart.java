@@ -3,6 +3,7 @@ package com.forbiddenkey.entities;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,8 +14,8 @@ public class Cart extends DomainEntity {
     @JoinColumn(name = "customer")
     private Customer customer;
 
-    @OneToMany(mappedBy = "cart")
-    private List<Item> items;
+    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER)
+    private List<Item> items = new ArrayList<>();
 
     private Boolean currentCart;
 
@@ -23,11 +24,9 @@ public class Cart extends DomainEntity {
     public Cart() {
     }
 
-    public Cart(Customer customer, List<Item> items, Boolean currentCart, Double totalValue) {
+    public Cart(Customer customer, Boolean currentCart) {
         this.customer = customer;
-        this.items = items;
         this.currentCart = currentCart;
-        this.totalValue = totalValue;
     }
 
     public Customer getCustomer() {

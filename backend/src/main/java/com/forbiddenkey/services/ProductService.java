@@ -85,8 +85,8 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setImgUrl(dto.getImgUrl());
         entity.setPrice(dto.getPrice());
-        entity.setDeveloper(developerRepository.getReferenceById(dto.getDeveloper()));
-        entity.setDistributor(distributorRepository.getReferenceById(dto.getDistributor()));
+        entity.setDeveloper(developerRepository.getReferenceById(dto.getDeveloper().getId()));
+        entity.setDistributor(distributorRepository.getReferenceById(dto.getDistributor().getId()));
         entity.setLaunchDate(dto.getLaunchDate());
         entity.getCategories().clear();
 
