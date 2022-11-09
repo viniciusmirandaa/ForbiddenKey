@@ -35,7 +35,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String[] PUBLIC = {"/oauth/token", "/h2-console/**"};
 
-    private static final String[] CLIENT_OR_ADMIN = {"/products/**", "/categories/**", "/developers/**", "/distributors/**", "/carts/**"};
+    private static final String[] CLIENT_OR_ADMIN = {"/products/**", "/categories/**", "/developers/**", "/distributors/**"};
+
+    private static final String CART = "/carts/**";
 
     private static final String[] USER = {"/customers/**"};
 
@@ -58,9 +60,11 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(PUBLIC).permitAll()
                 .antMatchers(HttpMethod.POST, USER).permitAll()
-                .antMatchers(CLIENT_OR_ADMIN).hasAnyRole("CUSTOMER")
+                .antMatchers(HttpMethod.GET, CLIENT_OR_ADMIN).permitAll()
+                .antMatchers(CLIENT_OR_ADMIN).hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.GET, USER).hasAnyRole("CUSTOMER", "ADMIN")
                 .antMatchers(HttpMethod.PUT, USER).hasAnyRole("CUSTOMER")
+                .antMatchers(CART).hasAnyRole("CUSTOMER")
                 .antMatchers(ADMIN).hasAnyRole("ADMIN")
                 .anyRequest().hasAnyRole("ADMIN");
     }

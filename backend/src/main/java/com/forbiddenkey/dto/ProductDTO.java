@@ -23,8 +23,8 @@ public class ProductDTO implements Serializable {
 	private String description;
 	@Positive(message = "Digite um valor positivo.")
 	private Double price;
-	private Long developer;
-	private Long distributor;
+	private DeveloperDTO developer;
+	private DistributorDTO distributor;
 	@PastOrPresent(message = "A data do produto não pode ser futura.")
 	private Instant launchDate;
 	private String imgUrl;
@@ -51,8 +51,8 @@ public class ProductDTO implements Serializable {
 		this.quantity = entity.getQuantity();
 		this.description = entity.getDescription();
 		this.price = entity.getPrice();
-		this.developer = entity.getDeveloper().getId();
-		this.distributor = entity.getDistributor().getId();
+		this.developer = new DeveloperDTO(entity.getDeveloper());
+		this.distributor = new DistributorDTO(entity.getDistributor());
 		this.launchDate = entity.getLaunchDate();
 		this.imgUrl = entity.getImgUrl();
 	}
@@ -60,6 +60,22 @@ public class ProductDTO implements Serializable {
 	public ProductDTO(Product entity, Set<Category> categories) {
 		this(entity);
 		categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
+	}
+
+	public DeveloperDTO getDeveloper() {
+		return developer;
+	}
+
+	public void setDeveloper(DeveloperDTO developer) {
+		this.developer = developer;
+	}
+
+	public DistributorDTO getDistributor() {
+		return distributor;
+	}
+
+	public void setDistributor(DistributorDTO distributor) {
+		this.distributor = distributor;
 	}
 
 	public Long getId() {
@@ -108,22 +124,6 @@ public class ProductDTO implements Serializable {
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
-	}
-
-	public Long getDeveloper() {
-		return developer;
-	}
-
-	public void setDeveloper(Long developer) {
-		this.developer = developer;
-	}
-
-	public Long getDistributor() {
-		return distributor;
-	}
-
-	public void setDistributor(Long distributor) {
-		this.distributor = distributor;
 	}
 
 	public Instant getLaunchDate() {

@@ -24,11 +24,9 @@ public class Cart extends DomainEntity {
     public Cart() {
     }
 
-    public Cart(Customer customer, List<Item> items, Boolean currentCart, Double totalValue) {
+    public Cart(Customer customer, Boolean currentCart) {
         this.customer = customer;
-        this.items = items;
         this.currentCart = currentCart;
-        this.totalValue = totalValue;
     }
 
     public Customer getCustomer() {
