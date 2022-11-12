@@ -1,6 +1,7 @@
 package com.forbiddenkey.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,8 +27,14 @@ public class CategoryResource {
 	@Autowired
 	private CategoryService service;
 
+	@GetMapping(value = "/getAll")
+	public ResponseEntity<List<CategoryDTO>> findAll() {
+		List<CategoryDTO> list = service.findAll();
+		return ResponseEntity.ok().body(list);
+	}
+
 	@GetMapping
-	public ResponseEntity<Page<CategoryDTO>> findAll(Pageable pageable) {
+	public ResponseEntity<Page<CategoryDTO>> findAllPageable(Pageable pageable) {
 		Page<CategoryDTO> list = service.findAllPaged(pageable);
 		return ResponseEntity.ok().body(list);
 	}

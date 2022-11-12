@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService {
@@ -25,6 +27,13 @@ public class CartService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Transactional(readOnly = true)
+    public List<CartDTO> findAll() {
+        List<Cart> list = cartRepository.findAll();
+        return list.stream().map(cart -> new CartDTO(cart, cart.getProducts())).collect(Collectors.toList());
+    }
+
 
     @Transactional(readOnly = true)
     public Cart findCurrentCart(Customer customer) {

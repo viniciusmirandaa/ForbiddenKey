@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/carts")
@@ -24,6 +25,12 @@ public class CartResource {
 
     @Autowired
     private CustomerService customerService;
+
+    @GetMapping(value = "/getAll")
+    public ResponseEntity<List<CartDTO>> findAll() {
+        List<CartDTO> list = cartService.findAll();
+        return ResponseEntity.ok().body(list);
+    }
 
     @GetMapping
     public ResponseEntity<CartDTO> findCurrentCart() {

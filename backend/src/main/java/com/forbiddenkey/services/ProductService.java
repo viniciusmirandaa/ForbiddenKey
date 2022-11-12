@@ -1,6 +1,8 @@
 package com.forbiddenkey.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.forbiddenkey.dto.category.CategoryDTO;
 import com.forbiddenkey.entities.Category;
@@ -25,7 +27,7 @@ import com.forbiddenkey.services.exceptions.ResourceNotFoundException;
 public class ProductService {
 
     @Autowired
-    private ProductRepository repository;
+    private ProductRepository productRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -37,14 +39,20 @@ public class ProductService {
     private DistributorRepository distributorRepository;
 
     @Transactional(readOnly = true)
+    public List<ProductDTO> findAll() {
+        List<Product> list = productRepository.findAll();
+        return list.stream().map(product -> new ProductDTO(product, product.getCategories())).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
     public Page<ProductDTO> findAllPaged(Pageable pageable) {
-        Page<Product> list = repository.findAll(pageable);
+        Page<Product> list = productRepository.findAll(pageable);
         return list.map(x -> new ProductDTO(x, x.getCategories()));
     }
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
-        Optional<Product> obj = repository.findById(id);
+        Optional<Product> obj = productRepository.findById(id);
         Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new ProductDTO(entity, entity.getCategories());
     }
@@ -53,22 +61,22 @@ public class ProductService {
     public ProductDTO insert(ProductDTO dto) {
         Product entity = new Product();
         copyDtoToEntity(dto, entity);
-        entity = repository.save(entity);
+        entity = productRepository.save(entity);
         return new ProductDTO(entity, entity.getCategories());
     }
 
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
-        Optional<Product> entity = repository.findById(id);
+        Optional<Product> entity = productRepository.findById(id);
         Product product = entity.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         copyDtoToEntity(dto, product);
-        product = repository.save(product);
+        product = productRepository.save(product);
         return new ProductDTO(product, product.getCategories());
     }
 
     public void delete(Long id) {
         try {
-            repository.deleteById(id);
+            productRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("Id not found " + id);
         } catch (DataIntegrityViolationException e) {
