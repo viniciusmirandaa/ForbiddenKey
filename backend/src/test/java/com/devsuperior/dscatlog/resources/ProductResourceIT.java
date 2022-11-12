@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.devsuperior.dscatlog.tests.Factory;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.forbiddenkey.dto.ProductDTO;
+import com.forbiddenkey.dto.product.ProductDTO;
 import com.forbiddenkey.repositories.ProductRepository;
 import com.forbiddenkey.services.ProductService;
 

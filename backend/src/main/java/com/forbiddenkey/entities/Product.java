@@ -2,9 +2,7 @@ package com.forbiddenkey.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +18,6 @@ import javax.validation.constraints.NotNull;
 @Table(name = "tb_product")
 public class Product extends DomainEntity {
     private static final long serialVersionUID = 1L;
-
 
     private String name;
     private int quantity;
@@ -38,6 +35,8 @@ public class Product extends DomainEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
+    @ManyToMany(mappedBy = "products")
+    private List<Cart> carts = new ArrayList<>();
 
     public Product() {
     }
@@ -54,6 +53,10 @@ public class Product extends DomainEntity {
         this.launchDate = launchDate;
         this.imgUrl = imgUrl;
         this.categories = categories;
+    }
+
+    public List<Cart> getCarts() {
+        return carts;
     }
 
     public int getQuantity() {

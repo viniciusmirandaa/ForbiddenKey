@@ -1,4 +1,4 @@
-package com.forbiddenkey.dto;
+package com.forbiddenkey.dto.admin;
 
 import com.forbiddenkey.entities.Admin;
 import com.forbiddenkey.entities.User;

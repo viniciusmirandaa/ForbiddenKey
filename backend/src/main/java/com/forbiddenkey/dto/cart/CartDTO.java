@@ -1,8 +1,9 @@
-package com.forbiddenkey.dto;
+package com.forbiddenkey.dto.cart;
 
+import com.forbiddenkey.dto.customer.CustomerDTO;
+import com.forbiddenkey.dto.product.ProductDTO;
 import com.forbiddenkey.entities.Cart;
-import com.forbiddenkey.entities.Customer;
-import com.forbiddenkey.entities.Item;
+import com.forbiddenkey.entities.Product;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,19 +15,22 @@ public class CartDTO implements Serializable {
 
     private Long id;
 
-    private List<ItemDTO> items = new ArrayList<>();
+    private CustomerDTO customerDTO;
+
+    private List<ProductDTO> products = new ArrayList<>();
 
     private Boolean currentCart;
 
     private Double totalValue;
 
-    public CartDTO(Cart entity, List<Item> list) {
+    public CartDTO(Cart entity, List<Product> list) {
         this(entity);
-        list.forEach(item -> this.items.add(new ItemDTO(item)));
+        list.forEach(Product -> this.products.add(new ProductDTO(Product)));
     }
 
     public CartDTO(Cart entity) {
         this.id = entity.getId();
+        this.customerDTO = new CustomerDTO(entity.getCustomer());
         this.currentCart = entity.getCurrentCart();
         this.totalValue = entity.getTotalValue();
     }
@@ -37,6 +41,14 @@ public class CartDTO implements Serializable {
         this.totalValue = totalValue;
     }
 
+    public CustomerDTO getCustomerDTO() {
+        return customerDTO;
+    }
+
+    public void setCustomerDTO(CustomerDTO customerDTO) {
+        this.customerDTO = customerDTO;
+    }
+
     public Long getId() {
         return id;
     }
@@ -45,8 +57,8 @@ public class CartDTO implements Serializable {
         this.id = id;
     }
 
-    public List<ItemDTO> getItems() {
-        return items;
+    public List<ProductDTO> getProducts() {
+        return products;
     }
 
     public Boolean getCurrentCart() {

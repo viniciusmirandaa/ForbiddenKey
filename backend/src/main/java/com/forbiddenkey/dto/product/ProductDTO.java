@@ -1,4 +1,4 @@
-package com.forbiddenkey.dto;
+package com.forbiddenkey.dto.product;
 
 import java.io.Serializable;
 import java.time.Instant;
@@ -8,6 +8,9 @@ import java.util.Set;
 
 import javax.validation.constraints.*;
 
+import com.forbiddenkey.dto.category.CategoryDTO;
+import com.forbiddenkey.dto.developer.DeveloperDTO;
+import com.forbiddenkey.dto.distributor.DistributorDTO;
 import com.forbiddenkey.entities.Category;
 import com.forbiddenkey.entities.Product;
 
@@ -20,13 +23,18 @@ public class ProductDTO implements Serializable {
 	private String name;
 	@NotNull
 	private int quantity;
+	@NotNull
 	private String description;
+	@NotNull
+	private DistributorDTO distributorDTO;
+	@NotNull
+	private DeveloperDTO developerDTO;
 	@Positive(message = "Digite um valor positivo.")
 	private Double price;
-	private DeveloperDTO developer;
-	private DistributorDTO distributor;
+	@NotNull
 	@PastOrPresent(message = "A data do produto não pode ser futura.")
 	private Instant launchDate;
+	@NotNull
 	private String imgUrl;
 
 	private List<CategoryDTO> categories = new ArrayList<>();
@@ -35,13 +43,15 @@ public class ProductDTO implements Serializable {
 
 	}
 
-	public ProductDTO(Long id, String name, int quantity, String description, Double price, String imgUrl) {
-		super();
+	public ProductDTO(Long id, String name, int quantity, String description, DistributorDTO distributorDTO, DeveloperDTO developerDTO, Double price, Instant launchDate, String imgUrl) {
 		this.id = id;
 		this.name = name;
 		this.quantity = quantity;
 		this.description = description;
+		this.distributorDTO = distributorDTO;
+		this.developerDTO = developerDTO;
 		this.price = price;
+		this.launchDate = launchDate;
 		this.imgUrl = imgUrl;
 	}
 
@@ -51,31 +61,15 @@ public class ProductDTO implements Serializable {
 		this.quantity = entity.getQuantity();
 		this.description = entity.getDescription();
 		this.price = entity.getPrice();
-		this.developer = new DeveloperDTO(entity.getDeveloper());
-		this.distributor = new DistributorDTO(entity.getDistributor());
 		this.launchDate = entity.getLaunchDate();
 		this.imgUrl = entity.getImgUrl();
+		this.developerDTO = new DeveloperDTO(entity.getDeveloper());
+		this.distributorDTO = new DistributorDTO(entity.getDistributor());
 	}
 
 	public ProductDTO(Product entity, Set<Category> categories) {
 		this(entity);
 		categories.forEach(cat -> this.categories.add(new CategoryDTO(cat)));
-	}
-
-	public DeveloperDTO getDeveloper() {
-		return developer;
-	}
-
-	public void setDeveloper(DeveloperDTO developer) {
-		this.developer = developer;
-	}
-
-	public DistributorDTO getDistributor() {
-		return distributor;
-	}
-
-	public void setDistributor(DistributorDTO distributor) {
-		this.distributor = distributor;
 	}
 
 	public Long getId() {
@@ -108,6 +102,22 @@ public class ProductDTO implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public DistributorDTO getDistributorDTO() {
+		return distributorDTO;
+	}
+
+	public void setDistributorDTO(DistributorDTO distributorDTO) {
+		this.distributorDTO = distributorDTO;
+	}
+
+	public DeveloperDTO getDeveloperDTO() {
+		return developerDTO;
+	}
+
+	public void setDeveloperDTO(DeveloperDTO developerDTO) {
+		this.developerDTO = developerDTO;
 	}
 
 	public Double getPrice() {

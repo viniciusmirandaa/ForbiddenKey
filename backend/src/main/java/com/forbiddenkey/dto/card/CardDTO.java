@@ -1,49 +1,73 @@
-package com.forbiddenkey.dto;
+package com.forbiddenkey.dto.card;
 
+import com.forbiddenkey.dto.banner.BannerDTO;
 import com.forbiddenkey.entities.Card;
-import com.forbiddenkey.entities.Customer;
+import org.hibernate.validator.constraints.br.CPF;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class CardDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private static final String ERROR_MESSAGE = "Por favor, preencha com dados válidos todos os campos obrigatórios abaixo.";
 
+    private Long id;
+
+    @NotNull(message = ERROR_MESSAGE)
     private String number;
 
+    @NotNull(message = ERROR_MESSAGE)
     private String holder;
 
+    @NotNull(message = ERROR_MESSAGE)
     private String expirationDateMonth;
 
+    @NotNull(message = ERROR_MESSAGE)
     private String expirationDateYear;
 
+    @NotNull(message = ERROR_MESSAGE)
+    @Size(min = 3, max = 3)
     private String securityNumber;
 
+    @NotNull(message = ERROR_MESSAGE)
+    @CPF(message = ERROR_MESSAGE)
     private String holderCpf;
 
-    private String flag;
+    @NotNull(message = ERROR_MESSAGE)
+    private BannerDTO bannerDTO;
 
-    public CardDTO(Card entity){
+    public CardDTO(Card entity) {
         this.number = entity.getNumber();
         this.holder = entity.getHolder();
         this.expirationDateMonth = entity.getExpirationDateMonth();
         this.expirationDateYear = entity.getExpirationDateYear();
         this.securityNumber = entity.getSecurity();
         this.holderCpf = entity.getHolderCpf();
-        this.flag = entity.getFlag();
+        this.bannerDTO = new BannerDTO(entity.getBanner());
     }
 
     public CardDTO() {
     }
 
-    public CardDTO(String number, String holder, String expirationDateMonth, String expirationDateYear, String securityNumber, String holderCpf, String flag) {
+    public CardDTO(Long id, String number, String holder, String expirationDateMonth, String expirationDateYear, String securityNumber, String holderCpf) {
+        this.id = id;
         this.number = number;
         this.holder = holder;
         this.expirationDateMonth = expirationDateMonth;
         this.expirationDateYear = expirationDateYear;
         this.securityNumber = securityNumber;
         this.holderCpf = holderCpf;
-        this.flag = flag;
+//        this.bannerDTO = bannerDTO;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNumber() {
@@ -94,11 +118,11 @@ public class CardDTO implements Serializable {
         this.holderCpf = holderCpf;
     }
 
-    public String getFlag() {
-        return flag;
+    public BannerDTO getBannerDTO() {
+        return bannerDTO;
     }
 
-    public void setFlag(String flag) {
-        this.flag = flag;
+    public void setBannerDTO(BannerDTO bannerDTO) {
+        this.bannerDTO = bannerDTO;
     }
 }

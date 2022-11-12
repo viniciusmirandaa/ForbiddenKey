@@ -4,11 +4,10 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import com.forbiddenkey.dto.UserUpdateDTO;
+import com.forbiddenkey.dto.user.UserUpdateDTO;
 import com.forbiddenkey.entities.Role;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -20,9 +19,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.forbiddenkey.dto.RoleDTO;
-import com.forbiddenkey.dto.UserDTO;
-import com.forbiddenkey.dto.UserInsertDTO;
+import com.forbiddenkey.dto.user.UserDTO;
+import com.forbiddenkey.dto.user.UserInsertDTO;
 import com.forbiddenkey.entities.User;
 import com.forbiddenkey.repositories.RoleRepository;
 import com.forbiddenkey.repositories.UserRepository;

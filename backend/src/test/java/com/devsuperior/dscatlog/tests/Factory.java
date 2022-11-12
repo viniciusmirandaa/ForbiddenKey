@@ -1,8 +1,6 @@
 package com.devsuperior.dscatlog.tests;
 
-import java.time.Instant;
-
-import com.forbiddenkey.dto.ProductDTO;
+import com.forbiddenkey.dto.product.ProductDTO;
 import com.forbiddenkey.entities.Category;
 import com.forbiddenkey.entities.Product;
 

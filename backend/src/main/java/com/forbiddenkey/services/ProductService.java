@@ -1,14 +1,13 @@
 package com.forbiddenkey.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
-import javax.persistence.EntityNotFoundException;
-
-import com.forbiddenkey.dto.CategoryDTO;
+import com.forbiddenkey.dto.category.CategoryDTO;
 import com.forbiddenkey.entities.Category;
 import com.forbiddenkey.repositories.DeveloperRepository;
 import com.forbiddenkey.repositories.DistributorRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -17,7 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.forbiddenkey.dto.ProductDTO;
+import com.forbiddenkey.dto.product.ProductDTO;
 import com.forbiddenkey.entities.Product;
 import com.forbiddenkey.repositories.CategoryRepository;
 import com.forbiddenkey.repositories.ProductRepository;
@@ -28,7 +27,7 @@ import com.forbiddenkey.services.exceptions.ResourceNotFoundException;
 public class ProductService {
 
     @Autowired
-    private ProductRepository repository;
+    private ProductRepository productRepository;
 
     @Autowired
     private CategoryRepository categoryRepository;
@@ -40,14 +39,20 @@ public class ProductService {
     private DistributorRepository distributorRepository;
 
     @Transactional(readOnly = true)
+    public List<ProductDTO> findAll() {
+        List<Product> list = productRepository.findAll();
+        return list.stream().map(product -> new ProductDTO(product, product.getCategories())).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
     public Page<ProductDTO> findAllPaged(Pageable pageable) {
-        Page<Product> list = repository.findAll(pageable);
+        Page<Product> list = productRepository.findAll(pageable);
         return list.map(x -> new ProductDTO(x, x.getCategories()));
     }
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
-        Optional<Product> obj = repository.findById(id);
+        Optional<Product> obj = productRepository.findById(id);
         Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new ProductDTO(entity, entity.getCategories());
     }
@@ -56,22 +61,22 @@ public class ProductService {
     public ProductDTO insert(ProductDTO dto) {
         Product entity = new Product();
         copyDtoToEntity(dto, entity);
-        entity = repository.save(entity);
+        entity = productRepository.save(entity);
         return new ProductDTO(entity, entity.getCategories());
     }
 
     @Transactional
     public ProductDTO update(Long id, ProductDTO dto) {
-        Optional<Product> entity = repository.findById(id);
+        Optional<Product> entity = productRepository.findById(id);
         Product product = entity.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         copyDtoToEntity(dto, product);
-        product = repository.save(product);
+        product = productRepository.save(product);
         return new ProductDTO(product, product.getCategories());
     }
 
     public void delete(Long id) {
         try {
-            repository.deleteById(id);
+            productRepository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("Id not found " + id);
         } catch (DataIntegrityViolationException e) {
@@ -85,8 +90,8 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setImgUrl(dto.getImgUrl());
         entity.setPrice(dto.getPrice());
-        entity.setDeveloper(developerRepository.getReferenceById(dto.getDeveloper().getId()));
-        entity.setDistributor(distributorRepository.getReferenceById(dto.getDistributor().getId()));
+        entity.setDeveloper(developerRepository.getReferenceById(dto.getDeveloperDTO().getId()));
+        entity.setDistributor(distributorRepository.getReferenceById(dto.getDistributorDTO().getId()));
         entity.setLaunchDate(dto.getLaunchDate());
         entity.getCategories().clear();
 

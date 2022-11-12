@@ -1,6 +1,7 @@
 package com.forbiddenkey.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.forbiddenkey.dto.ProductDTO;
+import com.forbiddenkey.dto.product.ProductDTO;
 import com.forbiddenkey.services.ProductService;
 
 @RestController
@@ -26,36 +27,42 @@ import com.forbiddenkey.services.ProductService;
 public class ProductResource {
 
 	@Autowired
-	private ProductService service;
+	private ProductService productService;
+
+	@GetMapping(value = "/getAll")
+	public ResponseEntity<List<ProductDTO>> findAll(){
+		List<ProductDTO> list = productService.findAll();
+		return ResponseEntity.ok().body(list);
+	}
 
 	@GetMapping
-	public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
-		Page<ProductDTO> list = service.findAllPaged(pageable);
+	public ResponseEntity<Page<ProductDTO>> findAllPageable(Pageable pageable) {
+		Page<ProductDTO> list = productService.findAllPaged(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
-		ProductDTO dto = service.findById(id);
+		ProductDTO dto = productService.findById(id);
 		return ResponseEntity.ok().body(dto);
 	}
 
 	@PostMapping
 	public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto) {
-		dto = service.insert(dto);
+		dto = productService.insert(dto);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
 		return ResponseEntity.created(uri).body(dto);
 	}
 
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<ProductDTO> update(@Valid @PathVariable Long id, @RequestBody ProductDTO dto) {
-		dto = service.update(id, dto);
+		dto = productService.update(id, dto);
 		return ResponseEntity.ok().body(dto);
 	}
 
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<ProductDTO> delete(@PathVariable Long id) {
-		service.delete(id);
+		productService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
 }

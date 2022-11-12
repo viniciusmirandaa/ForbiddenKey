@@ -8,8 +8,6 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import java.util.Optional;
 
-import javax.annotation.Resource;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +25,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.devsuperior.dscatlog.tests.Factory;
-import com.forbiddenkey.dto.ProductDTO;
+import com.forbiddenkey.dto.product.ProductDTO;
 import com.forbiddenkey.entities.Product;
 import com.forbiddenkey.repositories.CategoryRepository;
 import com.forbiddenkey.repositories.ProductRepository;

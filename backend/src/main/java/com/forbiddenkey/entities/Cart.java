@@ -4,7 +4,9 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_cart")
@@ -14,8 +16,9 @@ public class Cart extends DomainEntity {
     @JoinColumn(name = "customer")
     private Customer customer;
 
-    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER)
-    private List<Item> items = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "tb_cart_product", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
+    private List<Product> products = new ArrayList<>();
 
     private Boolean currentCart;
 
@@ -27,6 +30,10 @@ public class Cart extends DomainEntity {
     public Cart(Customer customer, Boolean currentCart) {
         this.customer = customer;
         this.currentCart = currentCart;
+    }
+
+    public List<Product> getProducts() {
+        return products;
     }
 
     public Customer getCustomer() {
@@ -51,10 +58,6 @@ public class Cart extends DomainEntity {
 
     public void setTotalValue(Double totalValue) {
         this.totalValue = totalValue;
-    }
-
-    public List<Item> getItems() {
-        return items;
     }
 
 }

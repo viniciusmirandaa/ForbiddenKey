@@ -1,16 +1,12 @@
 package com.forbiddenkey.resources;
 
-import com.forbiddenkey.dto.CustomerDTO;
-import com.forbiddenkey.dto.UserDTO;
-import com.forbiddenkey.dto.UserInsertDTO;
-import com.forbiddenkey.dto.UserUpdateDTO;
-import com.forbiddenkey.entities.Role;
+import com.forbiddenkey.dto.customer.CustomerDTO;
+import com.forbiddenkey.dto.user.UserDTO;
+import com.forbiddenkey.dto.user.UserInsertDTO;
+import com.forbiddenkey.dto.user.UserUpdateDTO;
 import com.forbiddenkey.repositories.RoleRepository;
-import com.forbiddenkey.repositories.UserRepository;
 import com.forbiddenkey.services.CustomerService;
 import com.forbiddenkey.services.UserService;
-import com.forbiddenkey.services.exceptions.ResourceNotFoundException;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +16,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/customers")

@@ -1,4 +1,4 @@
-package com.forbiddenkey.dto;
+package com.forbiddenkey.dto.user;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import com.forbiddenkey.dto.role.RoleDTO;
 import com.forbiddenkey.entities.User;
 
 public class UserDTO implements Serializable {

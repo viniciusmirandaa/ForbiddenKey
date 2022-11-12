@@ -1,9 +1,10 @@
-package com.forbiddenkey.dto;
+package com.forbiddenkey.dto.category;
 
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.forbiddenkey.dto.product.ProductDTO;
 import com.forbiddenkey.entities.Category;
 import com.forbiddenkey.entities.Product;
 

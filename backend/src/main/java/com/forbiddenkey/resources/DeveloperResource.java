@@ -1,6 +1,7 @@
 package com.forbiddenkey.resources;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.forbiddenkey.dto.DeveloperDTO;
+import com.forbiddenkey.dto.developer.DeveloperDTO;
 import com.forbiddenkey.services.DeveloperService;
 
 @RestController
@@ -27,10 +28,16 @@ public class DeveloperResource {
 
 	@Autowired
 	private DeveloperService developerService;
+
+	@GetMapping(value = "/getAll")
+	public ResponseEntity<List<DeveloperDTO>> findAll() {
+		List<DeveloperDTO> list = developerService.findAll();
+		return ResponseEntity.ok().body(list);
+	}
 	
 	@GetMapping
-	public ResponseEntity<Page<DeveloperDTO>> findAll(Pageable pageable) {
-		Page<DeveloperDTO> list = developerService.findAll(pageable);
+	public ResponseEntity<Page<DeveloperDTO>> findAllPageable(Pageable pageable) {
+		Page<DeveloperDTO> list = developerService.findAllPaged(pageable);
 		return ResponseEntity.ok().body(list);
 	}
 

@@ -1,15 +1,16 @@
-package com.forbiddenkey.dto;
+package com.forbiddenkey.dto.customer;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.forbiddenkey.dto.card.CardDTO;
+import com.forbiddenkey.dto.cart.CartDTO;
+import com.forbiddenkey.entities.Card;
 import com.forbiddenkey.entities.Cart;
 import com.forbiddenkey.entities.Customer;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Past;
 import javax.validation.constraints.PastOrPresent;
 import java.io.Serializable;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,13 +26,14 @@ public class CustomerDTO implements Serializable {
     @NotBlank(message = ERROR_MESSAGE)
     @CPF(message = ERROR_MESSAGE)
     private String cpf;
-    @JsonFormat(pattern="dd-MM-yyy")
+    @JsonFormat(pattern="dd-MM-yyyy")
     @PastOrPresent(message = ERROR_MESSAGE)
     private LocalDate birthDate;
     private String phone;
     private Long user;
     private String email;
     private List<CartDTO> carts = new ArrayList<>();
+    private List<CardDTO> cards = new ArrayList<>();
 
     public CustomerDTO() {
     }
@@ -58,9 +60,14 @@ public class CustomerDTO implements Serializable {
         this.email = entity.getUser().getEmail();
     }
 
-    public CustomerDTO(Customer entity, List<Cart> carts) {
+    public CustomerDTO(Customer entity, List<Cart> carts, List<Card> cards) {
         this(entity);
         carts.forEach(cart -> this.getCarts().add(new CartDTO(cart)));
+        cards.forEach(card -> this.getCards().add(new CardDTO(card)));
+    }
+
+    public List<CardDTO> getCards() {
+        return cards;
     }
 
     public List<CartDTO> getCarts() {

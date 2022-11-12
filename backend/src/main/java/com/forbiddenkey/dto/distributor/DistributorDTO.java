@@ -1,9 +1,10 @@
-package com.forbiddenkey.dto;
+package com.forbiddenkey.dto.distributor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.forbiddenkey.dto.product.ProductDTO;
 import com.forbiddenkey.entities.Distributor;
 import com.forbiddenkey.entities.Product;
 
