@@ -6,7 +6,6 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import com.forbiddenkey.entities.User;
 import com.forbiddenkey.services.AdminService;
 import com.forbiddenkey.services.CustomerService;
 import com.forbiddenkey.services.UserService;
@@ -14,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.forbiddenkey.dto.UserUpdateDTO;
+import com.forbiddenkey.dto.user.UserUpdateDTO;
 import com.forbiddenkey.repositories.UserRepository;
 import com.forbiddenkey.resources.exceptions.FieldMessage;
 

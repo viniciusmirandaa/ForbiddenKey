@@ -2,13 +2,10 @@ package com.forbiddenkey.services;
 
 import java.util.Optional;
 
-import javax.persistence.EntityNotFoundException;
-
-import com.forbiddenkey.dto.CategoryDTO;
+import com.forbiddenkey.dto.category.CategoryDTO;
 import com.forbiddenkey.entities.Category;
 import com.forbiddenkey.repositories.DeveloperRepository;
 import com.forbiddenkey.repositories.DistributorRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -17,7 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.forbiddenkey.dto.ProductDTO;
+import com.forbiddenkey.dto.product.ProductDTO;
 import com.forbiddenkey.entities.Product;
 import com.forbiddenkey.repositories.CategoryRepository;
 import com.forbiddenkey.repositories.ProductRepository;
@@ -85,8 +82,8 @@ public class ProductService {
         entity.setDescription(dto.getDescription());
         entity.setImgUrl(dto.getImgUrl());
         entity.setPrice(dto.getPrice());
-        entity.setDeveloper(developerRepository.getReferenceById(dto.getDeveloper().getId()));
-        entity.setDistributor(distributorRepository.getReferenceById(dto.getDistributor().getId()));
+        entity.setDeveloper(developerRepository.getReferenceById(dto.getDeveloperDTO().getId()));
+        entity.setDistributor(distributorRepository.getReferenceById(dto.getDistributorDTO().getId()));
         entity.setLaunchDate(dto.getLaunchDate());
         entity.getCategories().clear();
 

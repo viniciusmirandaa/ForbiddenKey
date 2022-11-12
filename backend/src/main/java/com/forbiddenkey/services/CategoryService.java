@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.forbiddenkey.dto.CategoryDTO;
+import com.forbiddenkey.dto.category.CategoryDTO;
 import com.forbiddenkey.entities.Category;
 import com.forbiddenkey.repositories.CategoryRepository;
 import com.forbiddenkey.services.exceptions.DatabaseException;
@@ -27,14 +27,14 @@ public class CategoryService {
 	@Transactional(readOnly = true)
 	public Page<CategoryDTO> findAllPaged(Pageable pageable) {
 		Page<Category> list = repository.findAll(pageable);
-		return list.map(CategoryDTO::new);
+		return list.map(cat -> new CategoryDTO(cat, cat.getProduct()));
 	}
 
 	@Transactional(readOnly = true)
 	public CategoryDTO findById(Long id) {
 		Optional<Category> obj = repository.findById(id);
 		Category entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-		return new CategoryDTO(entity);
+		return new CategoryDTO(entity, entity.getProduct());
 	}
 
 	@Transactional

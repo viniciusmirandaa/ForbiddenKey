@@ -38,8 +38,7 @@ public class Category extends DomainEntity {
 		this.name = name;
 	}
 
-	public void setProduct(Set<Product> product) {
-		this.product = product;
+	public Set<Product> getProduct() {
+		return product;
 	}
-
 }

@@ -11,7 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.forbiddenkey.dto.ProductDTO;
+import com.forbiddenkey.dto.product.ProductDTO;
 import com.forbiddenkey.repositories.ProductRepository;
 import com.forbiddenkey.services.ProductService;
 import com.forbiddenkey.services.exceptions.ResourceNotFoundException;

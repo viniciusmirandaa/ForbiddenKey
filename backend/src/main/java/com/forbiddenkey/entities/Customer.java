@@ -14,8 +14,12 @@ public class Customer extends DomainEntity{
     private String cpf;
     private LocalDate birthDate;
     private String phone;
+
     @OneToMany(mappedBy = "customer")
     private List<Cart> carts;
+
+//    @OneToMany(mappedBy = "customerCard")
+//    private List<Card> card;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -30,6 +34,10 @@ public class Customer extends DomainEntity{
         this.phone = phone;
         this.customerUser = customerUser;
     }
+
+//    public List<Card> getCard() {
+//        return card;
+//    }
 
     public User getCustomerUser() {
         return customerUser;

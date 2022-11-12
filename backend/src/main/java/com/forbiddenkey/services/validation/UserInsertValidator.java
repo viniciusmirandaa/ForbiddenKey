@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.forbiddenkey.dto.UserInsertDTO;
+import com.forbiddenkey.dto.user.UserInsertDTO;
 import com.forbiddenkey.repositories.UserRepository;
 import com.forbiddenkey.resources.exceptions.FieldMessage;
 

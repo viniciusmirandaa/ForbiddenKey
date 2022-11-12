@@ -1,12 +1,9 @@
 package com.forbiddenkey.services;
 
-import com.forbiddenkey.dto.AdminDTO;
-import com.forbiddenkey.dto.CustomerDTO;
+import com.forbiddenkey.dto.admin.AdminDTO;
 import com.forbiddenkey.entities.Admin;
-import com.forbiddenkey.entities.Customer;
 import com.forbiddenkey.entities.User;
 import com.forbiddenkey.repositories.AdminRepository;
-import com.forbiddenkey.repositories.UserRepository;
 import com.forbiddenkey.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;

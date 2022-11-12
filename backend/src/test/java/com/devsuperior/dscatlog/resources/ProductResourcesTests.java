@@ -26,7 +26,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import com.devsuperior.dscatlog.tests.Factory;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.forbiddenkey.dto.ProductDTO;
+import com.forbiddenkey.dto.product.ProductDTO;
 import com.forbiddenkey.resources.ProductResource;
 import com.forbiddenkey.services.ProductService;
 import com.forbiddenkey.services.exceptions.DatabaseException;

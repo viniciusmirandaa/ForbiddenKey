@@ -1,4 +1,4 @@
-package com.forbiddenkey.dto;
+package com.forbiddenkey.dto.user;
 
 import java.io.Serializable;
 

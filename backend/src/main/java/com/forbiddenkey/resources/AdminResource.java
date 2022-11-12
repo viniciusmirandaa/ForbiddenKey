@@ -1,12 +1,12 @@
 package com.forbiddenkey.resources;
 
-import com.forbiddenkey.dto.*;
+import com.forbiddenkey.dto.admin.AdminDTO;
+import com.forbiddenkey.dto.user.UserDTO;
+import com.forbiddenkey.dto.user.UserInsertDTO;
+import com.forbiddenkey.dto.user.UserUpdateDTO;
 import com.forbiddenkey.repositories.RoleRepository;
 import com.forbiddenkey.services.AdminService;
-import com.forbiddenkey.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

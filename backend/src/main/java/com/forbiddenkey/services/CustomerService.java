@@ -1,10 +1,9 @@
 package com.forbiddenkey.services;
 
-import com.forbiddenkey.dto.CustomerDTO;
+import com.forbiddenkey.dto.customer.CustomerDTO;
 import com.forbiddenkey.entities.Customer;
 import com.forbiddenkey.entities.User;
 import com.forbiddenkey.repositories.CustomerRepository;
-import com.forbiddenkey.repositories.UserRepository;
 import com.forbiddenkey.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.constraints.Null;
 import java.util.Optional;
 
 @Service

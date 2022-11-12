@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.forbiddenkey.dto.DistributorDTO;
+import com.forbiddenkey.dto.distributor.DistributorDTO;
 import com.forbiddenkey.services.DistributorService;
 
 @RestController

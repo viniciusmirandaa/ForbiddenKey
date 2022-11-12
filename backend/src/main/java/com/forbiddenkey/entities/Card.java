@@ -1,9 +1,6 @@
 package com.forbiddenkey.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_card")
@@ -25,7 +22,47 @@ public class Card extends DomainEntity {
 
     private String holderCpf;
 
-    private String flag;
+    @ManyToOne
+    @JoinColumn(name = "banner_id")
+    private Banner banner;
+
+    public Card() {
+    }
+
+    public Card(Customer customerCard, String number, String holder, String expirationDateMonth, String expirationDateYear, String securityNumber, String holderCpf, Banner banner) {
+        this.customerCard = customerCard;
+        this.number = number;
+        this.holder = holder;
+        this.expirationDateMonth = expirationDateMonth;
+        this.expirationDateYear = expirationDateYear;
+        this.securityNumber = securityNumber;
+        this.holderCpf = holderCpf;
+        this.banner = banner;
+    }
+
+    public Customer getCustomerCard() {
+        return customerCard;
+    }
+
+    public void setCustomerCard(Customer customerCard) {
+        this.customerCard = customerCard;
+    }
+
+    public String getSecurityNumber() {
+        return securityNumber;
+    }
+
+    public void setSecurityNumber(String securityNumber) {
+        this.securityNumber = securityNumber;
+    }
+
+    public Banner getBanner() {
+        return banner;
+    }
+
+    public void setBanner(Banner banner) {
+        this.banner = banner;
+    }
 
     public Customer getCustomer() {
         return customerCard;
@@ -83,11 +120,4 @@ public class Card extends DomainEntity {
         this.holderCpf = holderCpf;
     }
 
-    public String getFlag() {
-        return flag;
-    }
-
-    public void setFlag(String flag) {
-        this.flag = flag;
-    }
 }

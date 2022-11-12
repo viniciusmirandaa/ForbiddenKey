@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -12,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.forbiddenkey.dto.DistributorDTO;
+import com.forbiddenkey.dto.distributor.DistributorDTO;
 import com.forbiddenkey.entities.Distributor;
 import com.forbiddenkey.repositories.DistributorRepository;
 import com.forbiddenkey.services.exceptions.DatabaseException;
