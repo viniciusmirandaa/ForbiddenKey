@@ -18,7 +18,7 @@ public class Cart extends DomainEntity {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tb_cart_product", joinColumns = @JoinColumn(name = "cart_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
-    private List<Product> products = new ArrayList<>();
+    private Set<Product> products = new HashSet<>();
 
     private Boolean currentCart;
 
@@ -32,7 +32,7 @@ public class Cart extends DomainEntity {
         this.currentCart = currentCart;
     }
 
-    public List<Product> getProducts() {
+    public Set<Product> getProducts() {
         return products;
     }
 

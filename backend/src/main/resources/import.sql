@@ -141,3 +141,9 @@ INSERT INTO tb_product_category (product_id, category_id) VALUES (21, 11);
 INSERT INTO tb_product_category (product_id, category_id) VALUES (22, 1);
 INSERT INTO tb_product_category (product_id, category_id) VALUES (22, 4);
 INSERT INTO tb_product_category (product_id, category_id) VALUES (22, 11);
+
+INSERT INTO tb_banner (name, created_at) VALUES ('VISA', NOW());
+INSERT INTO tb_banner (name, created_at) VALUES ('MASTERCARD', NOW());
+INSERT INTO tb_banner (name, created_at) VALUES ('ELO', NOW());
+INSERT INTO tb_banner (name, created_at) VALUES ('AMERICAN EXPRESS', NOW());
+INSERT INTO tb_banner (name, created_at) VALUES ('MAESTRO', NOW());

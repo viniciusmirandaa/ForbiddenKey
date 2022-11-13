@@ -2,9 +2,7 @@ package com.forbiddenkey.dto.customer;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.forbiddenkey.dto.card.CardDTO;
-import com.forbiddenkey.dto.cart.CartDTO;
 import com.forbiddenkey.entities.Card;
-import com.forbiddenkey.entities.Cart;
 import com.forbiddenkey.entities.Customer;
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -14,6 +12,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class CustomerDTO implements Serializable {
 
@@ -32,7 +31,6 @@ public class CustomerDTO implements Serializable {
     private String phone;
     private Long user;
     private String email;
-    private List<CartDTO> carts = new ArrayList<>();
     private List<CardDTO> cards = new ArrayList<>();
 
     public CustomerDTO() {
@@ -60,18 +58,13 @@ public class CustomerDTO implements Serializable {
         this.email = entity.getUser().getEmail();
     }
 
-    public CustomerDTO(Customer entity, List<Cart> carts, List<Card> cards) {
+    public CustomerDTO(Customer entity, Set<Card> cards) {
         this(entity);
-        carts.forEach(cart -> this.getCarts().add(new CartDTO(cart)));
         cards.forEach(card -> this.getCards().add(new CardDTO(card)));
     }
 
     public List<CardDTO> getCards() {
         return cards;
-    }
-
-    public List<CartDTO> getCarts() {
-        return carts;
     }
 
     public String getEmail() {

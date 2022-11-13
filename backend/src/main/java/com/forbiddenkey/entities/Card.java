@@ -22,7 +22,7 @@ public class Card extends DomainEntity {
 
     private String holderCpf;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "banner_id")
     private Banner banner;
 

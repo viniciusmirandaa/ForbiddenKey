@@ -5,6 +5,7 @@ import com.forbiddenkey.entities.Card;
 import com.forbiddenkey.entities.Customer;
 import com.forbiddenkey.repositories.BannerRepository;
 import com.forbiddenkey.repositories.CardRepository;
+import com.forbiddenkey.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,8 @@ public class CardService {
     @Autowired
     private BannerRepository bannerRepository;
 
-    public List<CardDTO> findAll() {
-        List<Card> list = cardRepository.findAll();
+    public List<CardDTO> findAll(Customer customer) {
+        List<Card> list = cardRepository.findByCard(customer.getId());
         return list.stream().map(CardDTO::new).collect(Collectors.toList());
     }
 

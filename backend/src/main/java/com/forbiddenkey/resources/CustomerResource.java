@@ -32,7 +32,8 @@ public class CustomerResource {
 
     @GetMapping(value = "/details")
     public ResponseEntity<CustomerDTO> findById(){
-        var customerDTO = new CustomerDTO(customerService.currentCustomerLogged());
+        var customer = customerService.currentCustomerLogged();
+        var customerDTO = new CustomerDTO(customer, customer.getCards());
         return ResponseEntity.ok().body(customerDTO);
     }
 

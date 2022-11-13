@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_customer")
@@ -16,10 +17,10 @@ public class Customer extends DomainEntity{
     private String phone;
 
     @OneToMany(mappedBy = "customer")
-    private List<Cart> carts;
+    private Set<Cart> carts;
 
-//    @OneToMany(mappedBy = "customerCard")
-//    private List<Card> card;
+    @OneToMany(mappedBy = "customerCard", fetch = FetchType.EAGER)
+    private Set<Card> cards;
 
     @OneToOne
     @JoinColumn(name = "user_id")
@@ -35,9 +36,13 @@ public class Customer extends DomainEntity{
         this.customerUser = customerUser;
     }
 
-//    public List<Card> getCard() {
-//        return card;
-//    }
+    public Set<Cart> getCarts() {
+        return carts;
+    }
+
+    public Set<Card> getCards() {
+        return cards;
+    }
 
     public User getCustomerUser() {
         return customerUser;

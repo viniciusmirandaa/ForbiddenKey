@@ -8,6 +8,7 @@ import com.forbiddenkey.entities.Product;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class CartDTO implements Serializable {
 
@@ -23,14 +24,14 @@ public class CartDTO implements Serializable {
 
     private Double totalValue;
 
-    public CartDTO(Cart entity, List<Product> list) {
+    public CartDTO(Cart entity, Set<Product> list) {
         this(entity);
         list.forEach(Product -> this.products.add(new ProductDTO(Product)));
     }
 
     public CartDTO(Cart entity) {
         this.id = entity.getId();
-        this.customerDTO = new CustomerDTO(entity.getCustomer());
+        this.customerDTO = new CustomerDTO(entity.getCustomer(), entity.getCustomer().getCards());
         this.currentCart = entity.getCurrentCart();
         this.totalValue = entity.getTotalValue();
     }

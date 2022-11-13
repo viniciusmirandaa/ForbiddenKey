@@ -1,7 +1,5 @@
 package com.forbiddenkey.entities;
 
-import org.springframework.stereotype.Service;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
 

@@ -20,6 +20,7 @@ public class BannerDTO implements Serializable {
     }
 
     public BannerDTO(Banner entity) {
+        this.id = entity.getId();
         this.name = entity.getName();
     }
 

@@ -29,13 +29,6 @@ public class CartService {
     private CustomerRepository customerRepository;
 
     @Transactional(readOnly = true)
-    public List<CartDTO> findAll() {
-        List<Cart> list = cartRepository.findAll();
-        return list.stream().map(cart -> new CartDTO(cart, cart.getProducts())).collect(Collectors.toList());
-    }
-
-
-    @Transactional(readOnly = true)
     public Cart findCurrentCart(Customer customer) {
         return cartRepository.findByCustomerIdAndCurrentCartTrue(customer.getId());
     }

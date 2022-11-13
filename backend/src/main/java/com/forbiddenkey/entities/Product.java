@@ -36,7 +36,7 @@ public class Product extends DomainEntity {
     @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
     @ManyToMany(mappedBy = "products")
-    private List<Cart> carts = new ArrayList<>();
+    private Set<Cart> carts = new HashSet<>();
 
     public Product() {
     }
@@ -55,7 +55,7 @@ public class Product extends DomainEntity {
         this.categories = categories;
     }
 
-    public List<Cart> getCarts() {
+    public Set<Cart> getCarts() {
         return carts;
     }
 

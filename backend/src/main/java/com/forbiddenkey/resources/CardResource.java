@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -24,12 +25,12 @@ public class CardResource {
 
     @GetMapping
     public ResponseEntity<List<CardDTO>> findAll(){
-        List<CardDTO> list = cardService.findAll();
+        List<CardDTO> list = cardService.findAll(customerService.currentCustomerLogged());
         return ResponseEntity.ok().body(list);
     }
 
     @PostMapping
-    public ResponseEntity<CardDTO> insert(@RequestBody CardDTO cardDTO){
+    public ResponseEntity<CardDTO> insert(@Valid @RequestBody CardDTO cardDTO){
         cardDTO = cardService.insert(cardDTO, customerService.currentCustomerLogged());
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cardDTO.getId()).toUri();

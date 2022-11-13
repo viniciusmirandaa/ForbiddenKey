@@ -22,16 +22,17 @@ public class CardDTO implements Serializable {
     private String holder;
 
     @NotNull(message = ERROR_MESSAGE)
+    @Size(min = 2, max = 2, message = ERROR_MESSAGE)
     private String expirationDateMonth;
 
     @NotNull(message = ERROR_MESSAGE)
+    @Size(min = 4, max = 4, message = ERROR_MESSAGE)
     private String expirationDateYear;
 
     @NotNull(message = ERROR_MESSAGE)
-    @Size(min = 3, max = 3)
+    @Size(min = 3, max = 3, message = ERROR_MESSAGE)
     private String securityNumber;
 
-    @NotNull(message = ERROR_MESSAGE)
     @CPF(message = ERROR_MESSAGE)
     private String holderCpf;
 
@@ -39,6 +40,7 @@ public class CardDTO implements Serializable {
     private BannerDTO bannerDTO;
 
     public CardDTO(Card entity) {
+        this.id = entity.getId();
         this.number = entity.getNumber();
         this.holder = entity.getHolder();
         this.expirationDateMonth = entity.getExpirationDateMonth();
@@ -51,7 +53,7 @@ public class CardDTO implements Serializable {
     public CardDTO() {
     }
 
-    public CardDTO(Long id, String number, String holder, String expirationDateMonth, String expirationDateYear, String securityNumber, String holderCpf) {
+    public CardDTO(Long id, String number, String holder, String expirationDateMonth, String expirationDateYear, String securityNumber, String holderCpf, BannerDTO bannerDTO) {
         this.id = id;
         this.number = number;
         this.holder = holder;
@@ -59,7 +61,7 @@ public class CardDTO implements Serializable {
         this.expirationDateYear = expirationDateYear;
         this.securityNumber = securityNumber;
         this.holderCpf = holderCpf;
-//        this.bannerDTO = bannerDTO;
+        this.bannerDTO = bannerDTO;
     }
 
     public Long getId() {

@@ -26,12 +26,6 @@ public class CartResource {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping(value = "/getAll")
-    public ResponseEntity<List<CartDTO>> findAll() {
-        List<CartDTO> list = cartService.findAll();
-        return ResponseEntity.ok().body(list);
-    }
-
     @GetMapping
     public ResponseEntity<CartDTO> findCurrentCart() {
         var cart = cartService.findCurrentCart(customerService.currentCustomerLogged());
