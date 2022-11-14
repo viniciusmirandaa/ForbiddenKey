@@ -8,6 +8,7 @@ import com.forbiddenkey.repositories.CardRepository;
 import com.forbiddenkey.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,11 +22,13 @@ public class CardService {
     @Autowired
     private BannerRepository bannerRepository;
 
+    @Transactional(readOnly = true)
     public List<CardDTO> findAll(Customer customer) {
         List<Card> list = cardRepository.findByCard(customer.getId());
         return list.stream().map(CardDTO::new).collect(Collectors.toList());
     }
 
+    @Transactional
     public CardDTO insert(CardDTO cardDTO, Customer customer) {
         var entity = new Card();
         copyEntityToDto(entity, cardDTO, customer);

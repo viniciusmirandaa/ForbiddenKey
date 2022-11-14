@@ -63,6 +63,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, CLIENT_OR_ADMIN).permitAll()
                 .antMatchers(CLIENT_OR_ADMIN).hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.GET, USER).hasAnyRole("CUSTOMER", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/orders/**").hasAnyRole("CUSTOMER", "ADMIN")
+                .antMatchers("/orders/**").hasAnyRole("CUSTOMER")
                 .antMatchers(HttpMethod.PUT, USER).hasAnyRole("CUSTOMER")
                 .antMatchers(CLIENT_).hasAnyRole("CUSTOMER")
                 .antMatchers(ADMIN).hasAnyRole("ADMIN")
