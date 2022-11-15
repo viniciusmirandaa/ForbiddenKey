@@ -28,7 +28,7 @@ public class OrderDTO implements Serializable {
         this.protocol = protocol;
     }
 
-    public OrderDTO(Order entity){
+    public OrderDTO(Order entity) {
         this.id = entity.getId();
         this.cartDTO = new CartDTO(entity.getCart(), entity.getCart().getProducts());
         this.orderStatus = entity.getStatus();
@@ -66,4 +66,6 @@ public class OrderDTO implements Serializable {
     public void setProtocol(String protocol) {
         this.protocol = protocol;
     }
+
+
 }
