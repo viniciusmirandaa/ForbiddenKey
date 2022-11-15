@@ -66,6 +66,4 @@ public class OrderDTO implements Serializable {
     public void setProtocol(String protocol) {
         this.protocol = protocol;
     }
-
-
 }

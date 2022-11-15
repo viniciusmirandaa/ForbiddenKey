@@ -2,7 +2,7 @@ package com.forbiddenkey.dto.user;
 
 import java.io.Serializable;
 
-import com.forbiddenkey.services.validation.UserInsertValid;
+import com.forbiddenkey.services.validation.user.UserInsertValid;
 
 import javax.validation.constraints.NotBlank;
 

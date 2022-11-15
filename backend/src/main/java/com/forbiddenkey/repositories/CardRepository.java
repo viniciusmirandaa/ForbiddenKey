@@ -12,4 +12,7 @@ public interface CardRepository extends JpaRepository<Card, Long>{
 
     @Query(value = "SELECT * FROM TB_CARD WHERE CUSTOMER_ID = :id ORDER BY CREATED_AT", nativeQuery = true)
     List<Card> findByCard(Long id);
+
+    @Query(value = "SELECT * FROM TB_CARD WHERE NUMBER = :number", nativeQuery = true)
+    Card findByNumber(String number);
 }

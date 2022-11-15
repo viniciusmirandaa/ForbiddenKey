@@ -1,4 +1,4 @@
-package com.forbiddenkey.services.validation;
+package com.forbiddenkey.services.validation.user;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -22,6 +22,12 @@ public class OrderResource {
     @Autowired
     private CustomerService customerService;
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<OrderDTO> finById(@PathVariable Long id) {
+        var order= orderService.findById(id);
+        return ResponseEntity.ok().body(order);
+    }
+
     @GetMapping
     public ResponseEntity<List<OrderDTO>> findAll() {
         List<OrderDTO> list = orderService.findAll(customerService.currentCustomerLogged());
@@ -36,9 +42,9 @@ public class OrderResource {
         return ResponseEntity.created(uri).body(orderDto);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<OrderDTO> updateStatus(@PathVariable Long id){
-        var orderDTO = orderService.update(id);
+    @PutMapping
+    public ResponseEntity<OrderDTO> updateStatus(@RequestBody OrderDTO orderDTO){
+        orderDTO = orderService.update(orderDTO);
         return ResponseEntity.ok().body(orderDTO);
     }
 }
