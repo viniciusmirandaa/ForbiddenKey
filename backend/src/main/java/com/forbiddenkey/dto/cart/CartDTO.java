@@ -42,6 +42,9 @@ public class CartDTO implements Serializable {
         this.totalValue = totalValue;
     }
 
+    public CartDTO() {
+    }
+
     public CustomerDTO getCustomerDTO() {
         return customerDTO;
     }
