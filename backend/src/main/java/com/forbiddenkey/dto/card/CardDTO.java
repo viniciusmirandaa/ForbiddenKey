@@ -2,12 +2,14 @@ package com.forbiddenkey.dto.card;
 
 import com.forbiddenkey.dto.banner.BannerDTO;
 import com.forbiddenkey.entities.Card;
+import com.forbiddenkey.services.validation.card.CardValid;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
+@CardValid
 public class CardDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
