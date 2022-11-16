@@ -5,6 +5,7 @@ import com.forbiddenkey.entities.Cart;
 import com.forbiddenkey.entities.Customer;
 import com.forbiddenkey.entities.Enum.OrderStatus;
 import com.forbiddenkey.entities.Order;
+import com.forbiddenkey.entities.Product;
 import com.forbiddenkey.repositories.CartRepository;
 import com.forbiddenkey.repositories.CustomerRepository;
 import com.forbiddenkey.repositories.OrderRepository;
@@ -49,9 +50,16 @@ public class OrderService {
         var cart = obj.orElseThrow(() -> new ResourceNotFoundException("Id {" + id + "} not found."));
         cart.setCurrentCart(false);
 
+        for (Product prod : cart.getProducts()) {
+            prod.setQuantity(prod.getQuantity() - 1);
+            productRepository.save(prod);
+        }
+
         var order = new Order(cart.getCustomer(), cart, OrderStatus.EM_PROCESSAMENTO, createProtocol());
+
         cartRepository.save(cart);
         order = orderRepository.save(order);
+
         return new OrderDTO(order);
     }
 
@@ -59,8 +67,13 @@ public class OrderService {
     public OrderDTO update(OrderDTO orderDTO) {
         Optional<Order> obj = orderRepository.findById(orderDTO.getId());
         var entity = obj.orElseThrow(() -> new ResourceNotFoundException("Id {" + orderDTO.getId() + "} not found."));
-        if (orderDTO.getOrderStatus() == OrderStatus.EM_PROCESSAMENTO) entity.setStatus(OrderStatus.CANCELADO);
-        else entity.setStatus(OrderStatus.FINALIZADO);
+        if (orderDTO.getOrderStatus() == OrderStatus.EM_PROCESSAMENTO) {
+            entity.setStatus(OrderStatus.CANCELADO);
+            for (Product product : entity.getCart().getProducts()) {
+                product.setQuantity(product.getQuantity() + 1);
+                productRepository.save(product);
+            }
+        } else entity.setStatus(OrderStatus.FINALIZADO);
         entity = orderRepository.save(entity);
 
         return new OrderDTO(entity);
