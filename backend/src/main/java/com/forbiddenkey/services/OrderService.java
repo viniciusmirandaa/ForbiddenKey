@@ -8,6 +8,7 @@ import com.forbiddenkey.entities.Order;
 import com.forbiddenkey.repositories.CartRepository;
 import com.forbiddenkey.repositories.CustomerRepository;
 import com.forbiddenkey.repositories.OrderRepository;
+import com.forbiddenkey.repositories.ProductRepository;
 import com.forbiddenkey.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,9 @@ public class OrderService {
 
     @Autowired
     private CartRepository cartRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @Transactional(readOnly = true)
     public OrderDTO findById(Long id) {
