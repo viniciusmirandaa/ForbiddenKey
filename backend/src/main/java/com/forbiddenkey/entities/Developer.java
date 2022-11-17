@@ -1,6 +1,7 @@
 package com.forbiddenkey.entities;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -15,7 +16,7 @@ public class Developer extends DomainEntity {
 
 	private String name;
 	@OneToMany(mappedBy = "developer")
-	private List<Product> developerProduct;
+	private List<Product> developerProduct = new ArrayList<>();
 
 	public Developer() {
 

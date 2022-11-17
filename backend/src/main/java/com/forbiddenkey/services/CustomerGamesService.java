@@ -23,9 +23,11 @@ public class CustomerGamesService {
     @Autowired
     private OrderRepository orderRepository;
 
+
+
     @Transactional(readOnly = true)
-    public List<CustomerGamesDTO> findAll() {
-        List<CustomerGames> list = customerGamesRepository.findAll();
+    public List<CustomerGamesDTO> findAll(Long id) {
+        List<CustomerGames> list = customerGamesRepository.findGamesbyCustomer(id);
         return list.stream().map(CustomerGamesDTO::new).collect(Collectors.toList());
     }
 
@@ -34,9 +36,16 @@ public class CustomerGamesService {
         var order = orderRepository.findById(orderDTO.getId()).get();
 
         for (Product product : order.getCart().getProducts()) {
-            var customerGames = new CustomerGames(product, order.getCustomer(), createActivationKey());
+            var customerGames = new CustomerGames(product, order.getCustomer(), createActivationKey(), false);
             customerGamesRepository.save(customerGames);
         }
+    }
+
+    @Transactional
+    public CustomerGamesDTO update(CustomerGamesDTO customerGamesDTO) {
+        var customerGames = customerGamesRepository.findById(customerGamesDTO.getId()).get();
+        customerGames.setSeen(true);
+        return new CustomerGamesDTO(customerGames);
     }
 
     private String createActivationKey() {

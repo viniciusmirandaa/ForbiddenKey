@@ -16,13 +16,24 @@ public class CustomerGames extends DomainEntity {
 
     private String activationKey;
 
+    private boolean isSeen;
+
     public CustomerGames() {
     }
 
-    public CustomerGames(Product product, Customer customer, String activationKey) {
+    public CustomerGames(Product product, Customer customer, String activationKey, boolean isSeen) {
         this.product = product;
         this.customer = customer;
         this.activationKey = activationKey;
+        this.isSeen = isSeen;
+    }
+
+    public boolean isSeen() {
+        return isSeen;
+    }
+
+    public void setSeen(boolean seen) {
+        isSeen = seen;
     }
 
     public String getActivationKey() {

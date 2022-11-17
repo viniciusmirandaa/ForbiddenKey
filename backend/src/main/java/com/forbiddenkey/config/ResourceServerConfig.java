@@ -58,17 +58,22 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         }
 
         http.authorizeRequests()
+//                .antMatchers(PUBLIC).permitAll()
+//                .antMatchers(HttpMethod.POST, USER).permitAll()
+//                .antMatchers(HttpMethod.GET, CLIENT_OR_ADMIN).permitAll()
+//                .antMatchers(CLIENT_OR_ADMIN).hasAnyRole("ADMIN")
+//                .antMatchers(HttpMethod.GET, USER).hasAnyRole("CUSTOMER", "ADMIN")
+//                .antMatchers(HttpMethod.GET, "/orders/**").hasAnyRole("CUSTOMER", "ADMIN")
+//                .antMatchers("/orders/**").hasAnyRole("CUSTOMER")
+//                .antMatchers(HttpMethod.PUT, USER).hasAnyRole("CUSTOMER")
+//                .antMatchers(CLIENT_).hasAnyRole("CUSTOMER")
+//                .antMatchers(ADMIN).hasAnyRole("ADMIN")
+//                .anyRequest().hasAnyRole("ADMIN");
                 .antMatchers(PUBLIC).permitAll()
-                .antMatchers(HttpMethod.POST, USER).permitAll()
-                .antMatchers(HttpMethod.GET, CLIENT_OR_ADMIN).permitAll()
-                .antMatchers(CLIENT_OR_ADMIN).hasAnyRole("ADMIN")
-                .antMatchers(HttpMethod.GET, USER).hasAnyRole("CUSTOMER", "ADMIN")
-                .antMatchers(HttpMethod.GET, "/orders/**").hasAnyRole("CUSTOMER", "ADMIN")
-                .antMatchers("/orders/**").hasAnyRole("CUSTOMER")
-                .antMatchers(HttpMethod.PUT, USER).hasAnyRole("CUSTOMER")
-                .antMatchers(CLIENT_).hasAnyRole("CUSTOMER")
-                .antMatchers(ADMIN).hasAnyRole("ADMIN")
-                .anyRequest().hasAnyRole("ADMIN");
+                .antMatchers(CLIENT_OR_ADMIN).permitAll()
+                .antMatchers(CLIENT_).permitAll()
+                .antMatchers(USER).permitAll()
+                .antMatchers(ADMIN).permitAll();
     }
 
     @Bean
