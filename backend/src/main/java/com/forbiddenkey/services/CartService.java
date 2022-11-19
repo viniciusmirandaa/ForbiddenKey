@@ -3,15 +3,16 @@ package com.forbiddenkey.services;
 import com.forbiddenkey.dto.cart.CartDTO;
 import com.forbiddenkey.dto.customer.CustomerDTO;
 import com.forbiddenkey.entities.*;
-import com.forbiddenkey.repositories.CartRepository;
-import com.forbiddenkey.repositories.CustomerRepository;
-import com.forbiddenkey.repositories.ProductRepository;
+import com.forbiddenkey.repositories.*;
 import com.forbiddenkey.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,12 +36,12 @@ public class CartService {
     }
 
     @Transactional
-    public CartDTO insert(Long id, CustomerDTO customerDTO) {
+    public CartDTO insert(Long id, Customer customer) {
 
         Optional<Product> obj = productRepository.findById(id);
         var product = obj.orElseThrow(() -> new ResourceNotFoundException("Id {" + id + "} not found."));
 
-        var cart = new Cart(customerRepository.findById(customerDTO.getId()).get(), true);
+        var cart = new Cart(customerRepository.findById(customer.getId()).get(), true);
         cart.getProducts().add(product);
         cartTotalValue(cart);
 
@@ -75,7 +76,16 @@ public class CartService {
         for (Product i : cart.getProducts()) {
             totalValue += i.getPrice();
         }
-        cart.setTotalValue(totalValue);
+        if(isBirthDay(cart.getCustomer())) cart.setTotalValue(totalValue - 25d);
+        else cart.setTotalValue(totalValue);
         cartRepository.save(cart);
+    }
+
+    private boolean isBirthDay(Customer customer) {
+        LocalDate localDate = LocalDate.now();
+        int day = customer.getBirthDate().getDayOfMonth();
+        Month month = customer.getBirthDate().getMonth();
+
+        return day == localDate.getDayOfMonth() && month == localDate.getMonth();
     }
 }
