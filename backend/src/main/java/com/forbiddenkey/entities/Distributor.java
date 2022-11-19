@@ -22,10 +22,8 @@ public class Distributor extends DomainEntity {
 
 	}
 
-	public Distributor(Long id, String name, List<Product> distributorProducts, Instant createdAt, Instant updatedAt) {
-		this.id = id;
+	public Distributor(String name) {
 		this.name = name;
-		this.distributorProducts = distributorProducts;
 	}
 
 	public String getName() {
