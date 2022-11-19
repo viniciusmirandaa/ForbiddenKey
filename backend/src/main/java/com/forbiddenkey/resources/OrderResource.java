@@ -2,6 +2,7 @@ package com.forbiddenkey.resources;
 
 import com.forbiddenkey.dto.order.OrderDTO;
 import com.forbiddenkey.entities.Enum.OrderStatus;
+import com.forbiddenkey.services.CustomerGamesService;
 import com.forbiddenkey.services.CustomerService;
 import com.forbiddenkey.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class OrderResource {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private CustomerGamesService customerGamesService;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<OrderDTO> finById(@PathVariable Long id) {
@@ -45,6 +49,7 @@ public class OrderResource {
     @PutMapping
     public ResponseEntity<OrderDTO> updateStatus(@RequestBody OrderDTO orderDTO){
         orderDTO = orderService.update(orderDTO);
+        if(orderDTO.getOrderStatus() == OrderStatus.FINALIZADO) customerGamesService.insert(orderDTO);
         return ResponseEntity.ok().body(orderDTO);
     }
 }

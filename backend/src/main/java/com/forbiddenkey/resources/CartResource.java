@@ -35,8 +35,7 @@ public class CartResource {
 
     @PostMapping(value = "/{id}")
     public ResponseEntity<CartDTO> insert(@PathVariable Long id) {
-        var customerDTO = new CustomerDTO(customerService.currentCustomerLogged());
-        var cartDTO = cartService.insert(id, customerDTO);
+        var cartDTO = cartService.insert(id, customerService.currentCustomerLogged());
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cartDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();

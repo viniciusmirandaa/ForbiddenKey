@@ -2,6 +2,7 @@ package com.forbiddenkey.dto.customerGames;
 
 import com.forbiddenkey.dto.customer.CustomerDTO;
 import com.forbiddenkey.dto.order.OrderDTO;
+import com.forbiddenkey.dto.product.ProductDTO;
 import com.forbiddenkey.entities.CustomerGames;
 
 import java.io.Serializable;
@@ -10,33 +11,48 @@ public class CustomerGamesDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private OrderDTO orderDTO;
+    private Long id;
+
+    private ProductDTO productDTO;
 
     private CustomerDTO customerDTO;
 
     private String activationKey;
 
+    private boolean isSeen;
+
     public CustomerGamesDTO() {
     }
 
-    public CustomerGamesDTO(OrderDTO orderDTO, CustomerDTO customerDTO, String activationKey) {
-        this.orderDTO = orderDTO;
+    public CustomerGamesDTO(Long id, ProductDTO productDTO, CustomerDTO customerDTO, String activationKey, boolean isSeen) {
+        this.id = id;
+        this.productDTO = productDTO;
         this.customerDTO = customerDTO;
         this.activationKey = activationKey;
+        this.isSeen = isSeen;
     }
 
     public CustomerGamesDTO(CustomerGames entity) {
-        this.orderDTO = new OrderDTO(entity.getOrder());
+        this.productDTO = new ProductDTO(entity.getProduct());
         this.customerDTO = new CustomerDTO(entity.getCustomer());
         this.activationKey = entity.getActivationKey();
+        this.isSeen = entity.isSeen();
     }
 
-    public OrderDTO getOrderDTO() {
-        return orderDTO;
+    public Long getId() {
+        return id;
     }
 
-    public void setOrderDTO(OrderDTO orderDTO) {
-        this.orderDTO = orderDTO;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public ProductDTO getProductDTO() {
+        return productDTO;
+    }
+
+    public void setProductDTO(ProductDTO productDTO) {
+        this.productDTO = productDTO;
     }
 
     public CustomerDTO getCustomerDTO() {

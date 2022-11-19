@@ -7,8 +7,8 @@ import javax.persistence.*;
 public class CustomerGames extends DomainEntity {
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -16,13 +16,24 @@ public class CustomerGames extends DomainEntity {
 
     private String activationKey;
 
+    private boolean isSeen;
+
     public CustomerGames() {
     }
 
-    public CustomerGames(Order order, Customer customer, String activationKey) {
-        this.order = order;
+    public CustomerGames(Product product, Customer customer, String activationKey, boolean isSeen) {
+        this.product = product;
         this.customer = customer;
         this.activationKey = activationKey;
+        this.isSeen = isSeen;
+    }
+
+    public boolean isSeen() {
+        return isSeen;
+    }
+
+    public void setSeen(boolean seen) {
+        isSeen = seen;
     }
 
     public String getActivationKey() {
@@ -33,12 +44,12 @@ public class CustomerGames extends DomainEntity {
         this.activationKey = activationKey;
     }
 
-    public Order getOrder() {
-        return order;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Customer getCustomer() {
