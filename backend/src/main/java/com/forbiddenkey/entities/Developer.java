@@ -22,10 +22,8 @@ public class Developer extends DomainEntity {
 
 	}
 
-	public Developer(Long id, String name, List<Product> products, Instant createdAt, Instant updatedAt) {
-		this.id = id;
+	public Developer(String name) {
 		this.name = name;
-		this.developerProduct = products;
 	}
 
 	public List<Product> getDeveloperProduct() {
