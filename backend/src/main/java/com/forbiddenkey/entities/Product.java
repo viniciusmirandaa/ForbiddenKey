@@ -41,8 +41,13 @@ public class Product extends DomainEntity {
     public Product() {
     }
 
+    public Product(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
     public Product(String name, String description, double price, Developer developer, Distributor distributor,
-                   Instant launchDate, String imgUrl, int quantity, Set<Category> categories) {
+                   Instant launchDate, String imgUrl, int quantity) {
         super();
         this.name = name;
         this.quantity = quantity;
@@ -52,7 +57,6 @@ public class Product extends DomainEntity {
         this.distributor = distributor;
         this.launchDate = launchDate;
         this.imgUrl = imgUrl;
-        this.categories = categories;
     }
 
     public Set<Cart> getCarts() {
