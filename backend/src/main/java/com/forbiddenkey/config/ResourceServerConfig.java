@@ -24,9 +24,6 @@ import org.springframework.web.filter.CorsFilter;
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-    @Value("${cors.origins}")
-    private String corsOrigins;
-
     @Autowired
     private Environment env;
 
@@ -58,31 +55,26 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
         }
 
         http.authorizeRequests()
-//                .antMatchers(PUBLIC).permitAll()
-//                .antMatchers(HttpMethod.POST, USER).permitAll()
-//                .antMatchers(HttpMethod.GET, CLIENT_OR_ADMIN).permitAll()
-//                .antMatchers(CLIENT_OR_ADMIN).hasAnyRole("ADMIN")
-//                .antMatchers(HttpMethod.GET, USER).hasAnyRole("CUSTOMER", "ADMIN")
-//                .antMatchers(HttpMethod.GET, "/orders/**").hasAnyRole("CUSTOMER", "ADMIN")
-//                .antMatchers("/orders/**").hasAnyRole("CUSTOMER")
-//                .antMatchers(HttpMethod.PUT, USER).hasAnyRole("CUSTOMER")
-//                .antMatchers(CLIENT_).hasAnyRole("CUSTOMER")
-//                .antMatchers(ADMIN).hasAnyRole("ADMIN")
-//                .anyRequest().hasAnyRole("ADMIN");
                 .antMatchers(PUBLIC).permitAll()
-                .antMatchers(CLIENT_OR_ADMIN).permitAll()
-                .antMatchers(CLIENT_).permitAll()
-                .antMatchers(USER).permitAll()
-                .antMatchers(ADMIN).permitAll();
+                .antMatchers(HttpMethod.POST, USER).permitAll()
+                .antMatchers(HttpMethod.GET, CLIENT_OR_ADMIN).permitAll()
+                .antMatchers(CLIENT_OR_ADMIN).hasAnyRole("ADMIN")
+                .antMatchers(HttpMethod.GET, USER).hasAnyRole("CUSTOMER", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/orders/**").hasAnyRole("CUSTOMER", "ADMIN")
+                .antMatchers("/orders/**").hasAnyRole("CUSTOMER")
+                .antMatchers(HttpMethod.PUT, USER).hasAnyRole("CUSTOMER")
+                .antMatchers(CLIENT_).hasAnyRole("CUSTOMER")
+                .antMatchers(ADMIN).hasAnyRole("ADMIN")
+                .anyRequest().hasAnyRole("ADMIN");
+
+        http.cors().configurationSource(corsConfigurationSource());
     }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
 
-        String[] origins = corsOrigins.split(",");
-
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOriginPatterns(Arrays.asList(origins));
+        corsConfig.setAllowedOriginPatterns(Arrays.asList("*"));
         corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
         corsConfig.setAllowCredentials(true);
         corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
