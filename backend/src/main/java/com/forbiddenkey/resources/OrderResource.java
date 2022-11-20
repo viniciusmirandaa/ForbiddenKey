@@ -2,6 +2,7 @@ package com.forbiddenkey.resources;
 
 import com.forbiddenkey.dto.order.OrderDTO;
 import com.forbiddenkey.entities.Enum.OrderStatus;
+import com.forbiddenkey.services.CartService;
 import com.forbiddenkey.services.CustomerGamesService;
 import com.forbiddenkey.services.CustomerService;
 import com.forbiddenkey.services.OrderService;
@@ -26,6 +27,9 @@ public class OrderResource {
     @Autowired
     private CustomerGamesService customerGamesService;
 
+    @Autowired
+    private CartService cartService;
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<OrderDTO> finById(@PathVariable Long id) {
         var order= orderService.findById(id);
@@ -38,9 +42,9 @@ public class OrderResource {
         return ResponseEntity.ok().body(list);
     }
 
-    @PostMapping(value = "/{id}")
-    public ResponseEntity<OrderDTO> insert(@PathVariable Long id) {
-        var orderDto = orderService.insert(id);
+    @PostMapping
+    public ResponseEntity<OrderDTO> insert() {
+        var orderDto = orderService.insert(cartService.findCurrentCart(customerService.currentCustomerLogged()));
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(orderDto.getId()).toUri();
         return ResponseEntity.created(uri).body(orderDto);
