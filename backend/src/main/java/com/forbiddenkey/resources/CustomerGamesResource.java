@@ -1,6 +1,7 @@
 package com.forbiddenkey.resources;
 
 import com.forbiddenkey.dto.customerGames.CustomerGamesDTO;
+import com.forbiddenkey.entities.CustomerGames;
 import com.forbiddenkey.services.CustomerGamesService;
 import com.forbiddenkey.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,14 @@ public class CustomerGamesResource {
     private CustomerService customerService;
 
     @GetMapping
-    public ResponseEntity<List<CustomerGamesDTO>> findAll(){
-        List<CustomerGamesDTO> list = customerGamesService.findAll(customerService.currentCustomerLogged().getId());
+    public ResponseEntity<List<CustomerGames>> findAll(){
+        List<CustomerGames> list = customerGamesService.findAll();
+        return ResponseEntity.ok().body(list);
+    }
+
+    @GetMapping(value = "/customerGames")
+    public ResponseEntity<List<CustomerGamesDTO>> findCustomerGames(){
+        List<CustomerGamesDTO> list = customerGamesService.findCustomerGames(customerService.currentCustomerLogged().getId());
         return ResponseEntity.ok().body(list);
     }
 

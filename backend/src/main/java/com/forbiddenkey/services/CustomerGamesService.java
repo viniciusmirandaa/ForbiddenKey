@@ -23,10 +23,14 @@ public class CustomerGamesService {
     @Autowired
     private OrderRepository orderRepository;
 
-
+    @Transactional(readOnly = true)
+    public List<CustomerGames> findAll() {
+        List<CustomerGames> list = customerGamesRepository.findAll();
+        return list;
+    }
 
     @Transactional(readOnly = true)
-    public List<CustomerGamesDTO> findAll(Long id) {
+    public List<CustomerGamesDTO> findCustomerGames(Long id) {
         List<CustomerGames> list = customerGamesRepository.findGamesbyCustomer(id);
         return list.stream().map(CustomerGamesDTO::new).collect(Collectors.toList());
     }

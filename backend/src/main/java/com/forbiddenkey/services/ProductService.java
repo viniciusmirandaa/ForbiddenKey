@@ -1,11 +1,14 @@
 package com.forbiddenkey.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.forbiddenkey.dto.category.CategoryDTO;
+import com.forbiddenkey.dto.customerGames.CustomerGamesDTO;
 import com.forbiddenkey.entities.Category;
+import com.forbiddenkey.entities.CustomerGames;
 import com.forbiddenkey.repositories.DeveloperRepository;
 import com.forbiddenkey.repositories.DistributorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,10 +53,12 @@ public class ProductService {
         return list.stream().map(product -> new ProductDTO(product, product.getCategories())).collect(Collectors.toList());
     }
 
-//    @Transactional(readOnly = true)
-//    public List<ProductDTO> findAllSelled() {
-//        List<Product> list = productRepository.findAllSelled();
-//    }
+    @Transactional(readOnly = true)
+    public List<ProductDTO> findMostSelled(List<CustomerGames> customerGames) {
+        List<Long> ids = setMostSelledGames(customerGames);
+        List<Product> list = productRepository.findMostSelled(ids);
+        return list.stream().map(ProductDTO::new).collect(Collectors.toList());
+    }
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
@@ -106,5 +111,19 @@ public class ProductService {
             Category category = categoryRepository.getReferenceById(catDTO.getId());
             entity.getCategories().add(category);
         }
+    }
+
+    private List<Long> setMostSelledGames(List<CustomerGames> customerGames) {
+        List<Product> list = new ArrayList<>();
+        List<Long> ids = new ArrayList<>();
+
+        for (CustomerGames entity : customerGames) {
+            var customer = entity.getProduct().getCustomerGames();
+            for (Product product : list)
+                if(entity.getProduct() == product) ;
+                else list.add(entity.getProduct());
+        }
+        for(Product product : list) ids.add(product.getId());
+        return ids;
     }
 }

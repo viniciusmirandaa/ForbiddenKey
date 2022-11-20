@@ -41,7 +41,7 @@ public class CartService {
         Optional<Product> obj = productRepository.findById(id);
         var product = obj.orElseThrow(() -> new ResourceNotFoundException("Id {" + id + "} not found."));
 
-        var cart = new Cart(customerRepository.findById(customer.getId()).get(), true);
+        var cart = new Cart(customer, true);
         cart.getProducts().add(product);
         cartTotalValue(cart);
 
@@ -82,6 +82,7 @@ public class CartService {
     }
 
     private boolean isBirthDay(Customer customer) {
+        if(customer.getBirthDate() == null) return false;
         LocalDate localDate = LocalDate.now();
         int day = customer.getBirthDate().getDayOfMonth();
         Month month = customer.getBirthDate().getMonth();
