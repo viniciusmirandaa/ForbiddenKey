@@ -14,7 +14,6 @@ public class AdminDTO implements Serializable {
     private String firstName;
     private String lastName;
     private UserDTO user;
-    private String email;
 
     public AdminDTO() {
     }
@@ -24,7 +23,6 @@ public class AdminDTO implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.user = user;
-        this.email = email;
     }
 
     public AdminDTO(Admin entity) {
@@ -32,15 +30,6 @@ public class AdminDTO implements Serializable {
         this.firstName = entity.getUser().getFirstName();
         this.lastName = entity.getUser().getLastName();
         this.user = new UserDTO(entity.getUser());
-        this.email = entity.getUser().getEmail();
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getFirstName() {
