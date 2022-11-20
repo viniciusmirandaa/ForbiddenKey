@@ -32,8 +32,6 @@ public class Product extends DomainEntity {
     private Set<Category> categories = new HashSet<>();
     @ManyToMany(mappedBy = "products")
     private Set<Cart> carts = new HashSet<>();
-    @OneToMany(mappedBy = "product")
-    private List<CustomerGames> customerGames = new ArrayList<>();
 
     public Product() {
     }
@@ -55,10 +53,6 @@ public class Product extends DomainEntity {
         this.launchDate = launchDate;
         this.imgUrl = imgUrl;
         this.active = active;
-    }
-
-    public List<CustomerGames> getCustomerGames() {
-        return customerGames;
     }
 
     public Set<Cart> getCarts() {
