@@ -31,7 +31,6 @@ public class CustomerDTO implements Serializable {
     private LocalDate birthDate;
     private String phone;
     private UserDTO user;
-    private String email;
     private List<CardDTO> cards = new ArrayList<>();
 
     public CustomerDTO() {
@@ -45,7 +44,6 @@ public class CustomerDTO implements Serializable {
         this.birthDate = birthDate;
         this.phone = phone;
         this.user = user;
-        this.email = email;
     }
 
     public CustomerDTO(Customer entity) {
@@ -56,7 +54,6 @@ public class CustomerDTO implements Serializable {
         this.birthDate = entity.getBirthDate();
         this.phone = entity.getPhone();
         this.user = new UserDTO(entity.getUser());
-        this.email = entity.getUser().getEmail();
     }
 
     public CustomerDTO(Customer entity, Set<Card> cards) {
@@ -66,14 +63,6 @@ public class CustomerDTO implements Serializable {
 
     public List<CardDTO> getCards() {
         return cards;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getFirstName() {

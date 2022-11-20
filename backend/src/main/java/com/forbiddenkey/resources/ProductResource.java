@@ -34,7 +34,13 @@ public class ProductResource {
 	@Autowired
 	private CustomerGamesService customerGamesService;
 
-	@GetMapping
+	@GetMapping(value = "/avaible")
+	public ResponseEntity<List<ProductDTO>> findAllAvaible() {
+		List<ProductDTO> list = productService.findAll();
+		return ResponseEntity.ok().body(list);
+	}
+
+	@GetMapping(value = "/all")
 	public ResponseEntity<List<ProductDTO>> findAll() {
 		List<ProductDTO> list = productService.findAll();
 		return ResponseEntity.ok().body(list);
