@@ -73,7 +73,13 @@ public class OrderService {
                 product.setQuantity(product.getQuantity() + 1);
                 productRepository.save(product);
             }
-        } else entity.setStatus(OrderStatus.FINALIZADO);
+        } else {
+            entity.setStatus(OrderStatus.FINALIZADO);
+            for (Product product : entity.getCart().getProducts()) {
+                if(product.getQuantity() == 0) product.setActive(false);
+                productRepository.save(product);
+            }
+        }
         entity = orderRepository.save(entity);
 
         return new OrderDTO(entity);

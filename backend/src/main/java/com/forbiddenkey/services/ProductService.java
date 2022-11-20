@@ -40,15 +40,14 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public List<ProductDTO> findAll() {
-        List<Product> list = productRepository.findAll();
+        List<Product> list = productRepository.findByActiveTrue();
         return list.stream().map(product -> new ProductDTO(product, product.getCategories())).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public Page<ProductDTO> findAllPaged(Pageable pageable) {
-        Page<Product> list = productRepository.findAll(pageable);
-        return list.map(x -> new ProductDTO(x, x.getCategories()));
-    }
+//    @Transactional(readOnly = true)
+//    public List<ProductDTO> findAllSelled() {
+//        List<Product> list = productRepository.findAllSelled();
+//    }
 
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id) {
@@ -61,6 +60,7 @@ public class ProductService {
     public ProductDTO insert(ProductDTO dto) {
         Product entity = new Product();
         copyDtoToEntity(dto, entity);
+        entity.setActive(true);
         entity = productRepository.save(entity);
         return new ProductDTO(entity, entity.getCategories());
     }
@@ -74,13 +74,14 @@ public class ProductService {
         return new ProductDTO(product, product.getCategories());
     }
 
-    public void delete(Long id) {
+    public void inactivate(Long id) {
         try {
-            productRepository.deleteById(id);
+            var obj = productRepository.findById(id);
+            var entity = obj.orElseThrow(() -> new ResourceNotFoundException("Id {" + id + "} not found."));
+            entity.setActive(false);
+            productRepository.save(entity);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("Id not found " + id);
-        } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("Integrity Violation");
         }
     }
 

@@ -1,5 +1,6 @@
 package com.forbiddenkey.dto.admin;
 
+import com.forbiddenkey.dto.user.UserDTO;
 import com.forbiddenkey.entities.Admin;
 import com.forbiddenkey.entities.User;
 
@@ -12,13 +13,13 @@ public class AdminDTO implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;
-    private Long user;
+    private UserDTO user;
     private String email;
 
     public AdminDTO() {
     }
 
-    public AdminDTO(Long id, String firstName, String lastName, Long user, String email) {
+    public AdminDTO(Long id, String firstName, String lastName, UserDTO user, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,7 +31,7 @@ public class AdminDTO implements Serializable {
         this.id = entity.getId();
         this.firstName = entity.getUser().getFirstName();
         this.lastName = entity.getUser().getLastName();
-        this.user = entity.getUser().getId();
+        this.user = new UserDTO(entity.getUser());
         this.email = entity.getUser().getEmail();
     }
 
@@ -66,11 +67,11 @@ public class AdminDTO implements Serializable {
         this.id = id;
     }
 
-    public Long getUser() {
+    public UserDTO getUser() {
         return user;
     }
 
-    public void setUser(Long user) {
+    public void setUser(UserDTO user) {
         this.user = user;
     }
 }

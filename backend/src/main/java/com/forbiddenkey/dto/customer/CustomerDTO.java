@@ -2,6 +2,7 @@ package com.forbiddenkey.dto.customer;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.forbiddenkey.dto.card.CardDTO;
+import com.forbiddenkey.dto.user.UserDTO;
 import com.forbiddenkey.entities.Card;
 import com.forbiddenkey.entities.Customer;
 import org.hibernate.validator.constraints.br.CPF;
@@ -29,14 +30,14 @@ public class CustomerDTO implements Serializable {
     @PastOrPresent(message = ERROR_MESSAGE)
     private LocalDate birthDate;
     private String phone;
-    private Long user;
+    private UserDTO user;
     private String email;
     private List<CardDTO> cards = new ArrayList<>();
 
     public CustomerDTO() {
     }
 
-    public CustomerDTO(Long id, String firstName, String lastName, String cpf, LocalDate birthDate, String phone, Long user, String email) {
+    public CustomerDTO(Long id, String firstName, String lastName, String cpf, LocalDate birthDate, String phone, UserDTO user, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -54,7 +55,7 @@ public class CustomerDTO implements Serializable {
         this.cpf = entity.getCpf();
         this.birthDate = entity.getBirthDate();
         this.phone = entity.getPhone();
-        this.user = entity.getUser().getId();
+        this.user = new UserDTO(entity.getUser());
         this.email = entity.getUser().getEmail();
     }
 
@@ -99,12 +100,12 @@ public class CustomerDTO implements Serializable {
         this.id = id;
     }
 
-    public Long getUser() {
-        return user;
+    public void setUser(UserDTO user) {
+        this.user = user;
     }
 
-    public void setUser(Long user) {
-        this.user = user;
+    public UserDTO getUser() {
+        return user;
     }
 
     public String getCpf() {

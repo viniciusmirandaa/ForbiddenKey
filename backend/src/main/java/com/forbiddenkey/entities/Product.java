@@ -32,6 +32,7 @@ public class Product extends DomainEntity {
     private Distributor distributor;
     private Instant launchDate;
     private String imgUrl;
+    private boolean active;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
@@ -47,7 +48,7 @@ public class Product extends DomainEntity {
     }
 
     public Product(String name, String description, double price, Developer developer, Distributor distributor,
-                   Instant launchDate, String imgUrl, int quantity) {
+                   Instant launchDate, String imgUrl, int quantity, boolean active) {
         super();
         this.name = name;
         this.quantity = quantity;
@@ -57,6 +58,7 @@ public class Product extends DomainEntity {
         this.distributor = distributor;
         this.launchDate = launchDate;
         this.imgUrl = imgUrl;
+        this.active = active;
     }
 
     public Set<Cart> getCarts() {
@@ -135,4 +137,11 @@ public class Product extends DomainEntity {
         this.price = price;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

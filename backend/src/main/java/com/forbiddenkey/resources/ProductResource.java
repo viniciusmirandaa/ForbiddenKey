@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.forbiddenkey.services.CustomerGamesService;
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,17 +31,20 @@ public class ProductResource {
 	@Autowired
 	private ProductService productService;
 
-	@GetMapping(value = "/getAll")
-	public ResponseEntity<List<ProductDTO>> findAll(){
+	@Autowired
+	private CustomerGamesService customerGamesService;
+
+	@GetMapping
+	public ResponseEntity<List<ProductDTO>> findAll() {
 		List<ProductDTO> list = productService.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 
-	@GetMapping
-	public ResponseEntity<Page<ProductDTO>> findAllPageable(Pageable pageable) {
-		Page<ProductDTO> list = productService.findAllPaged(pageable);
-		return ResponseEntity.ok().body(list);
-	}
+//	@GetMapping(value = "/mostSelled")
+//	public ResponseEntity<List<ProductDTO>> findAllSelled() {
+//		List<ProductDTO> list = productService.findAllSelled(customerGamesService.findAll);
+//		return ResponseEntity.ok().body(list);
+//	}
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
@@ -61,8 +66,8 @@ public class ProductResource {
 	}
 
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<ProductDTO> delete(@PathVariable Long id) {
-		productService.delete(id);
+	public ResponseEntity<ProductDTO> inactivate(@PathVariable Long id) {
+		productService.inactivate(id);
 		return ResponseEntity.noContent().build();
 	}
 }
