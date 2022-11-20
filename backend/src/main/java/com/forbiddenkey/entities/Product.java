@@ -14,6 +14,7 @@ public class Product extends DomainEntity {
 
     private String name;
     private int quantity;
+    private int selledQuantity;
     @Column(columnDefinition = "TEXT")
     private String description;
     private double price;
@@ -42,11 +43,11 @@ public class Product extends DomainEntity {
         this.price = price;
     }
 
-    public Product(String name, String description, double price, Developer developer, Distributor distributor,
-                   Instant launchDate, String imgUrl, int quantity, boolean active) {
-        super();
+    public Product(String name, int quantity, int selledQuantity, String description, double price, Developer developer,
+                   Distributor distributor, Instant launchDate, String imgUrl, boolean active) {
         this.name = name;
         this.quantity = quantity;
+        this.selledQuantity = selledQuantity;
         this.description = description;
         this.price = price;
         this.developer = developer;
@@ -62,6 +63,14 @@ public class Product extends DomainEntity {
 
     public Set<Cart> getCarts() {
         return carts;
+    }
+
+    public int getSelledQuantity() {
+        return selledQuantity;
+    }
+
+    public void setSelledQuantity(int selledQuantity) {
+        this.selledQuantity = selledQuantity;
     }
 
     public int getQuantity() {

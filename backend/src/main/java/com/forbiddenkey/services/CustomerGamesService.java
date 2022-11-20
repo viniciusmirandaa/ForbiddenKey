@@ -24,9 +24,9 @@ public class CustomerGamesService {
     private OrderRepository orderRepository;
 
     @Transactional(readOnly = true)
-    public List<CustomerGames> findAll() {
+    public List<CustomerGamesDTO> findAll() {
         List<CustomerGames> list = customerGamesRepository.findAll();
-        return list;
+        return list.stream().map(CustomerGamesDTO::new).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

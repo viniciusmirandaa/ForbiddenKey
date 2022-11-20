@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query(value = "SELECT id FROM TB_ORDER ORDER BY ID DESC", nativeQuery = true)
+    @Query(value = "SELECT TOP 1 id FROM TB_ORDER ORDER BY ID DESC", nativeQuery = true)
     Long findLastInserted();
 
     @Query(value = "SELECT * FROM TB_ORDER WHERE CUSTOMER_ID = :id", nativeQuery = true)
