@@ -39,8 +39,14 @@ public class ProductService {
     private DistributorRepository distributorRepository;
 
     @Transactional(readOnly = true)
-    public List<ProductDTO> findAll() {
+    public List<ProductDTO> findAllAvaible() {
         List<Product> list = productRepository.findByActiveTrue();
+        return list.stream().map(product -> new ProductDTO(product, product.getCategories())).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProductDTO> findAll() {
+        List<Product> list = productRepository.findAll();
         return list.stream().map(product -> new ProductDTO(product, product.getCategories())).collect(Collectors.toList());
     }
 

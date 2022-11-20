@@ -32,7 +32,7 @@ public class CartService {
     @Transactional(readOnly = true)
     public Cart findCurrentCart(Customer customer) {
         Optional<Cart> obj = cartRepository.findByCustomerIdAndCurrentCartTrue(customer.getId());
-        return obj.orElseThrow(() -> new ResourceNotFoundException("Resource not found."));
+        return obj.orElseThrow(() -> new ResourceNotFoundException("Cart not found."));
     }
 
     @Transactional

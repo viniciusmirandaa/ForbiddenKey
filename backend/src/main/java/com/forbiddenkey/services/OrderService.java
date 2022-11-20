@@ -45,9 +45,9 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderDTO insert(Long id) {
-        Optional<Cart> obj = cartRepository.findById(id);
-        var cart = obj.orElseThrow(() -> new ResourceNotFoundException("Id {" + id + "} not found."));
+    public OrderDTO insert(Cart cart) {
+        Optional<Cart> obj = cartRepository.findById(cart.getId());
+        var entity = obj.orElseThrow(() -> new ResourceNotFoundException("Id {" + cart.getId() + "} not found."));
         cart.setCurrentCart(false);
 
         for (Product prod : cart.getProducts()) {
