@@ -67,6 +67,7 @@ public class OrderService {
     public OrderDTO update(OrderDTO orderDTO) {
         Optional<Order> obj = orderRepository.findById(orderDTO.getId());
         var entity = obj.orElseThrow(() -> new ResourceNotFoundException("Id {" + orderDTO.getId() + "} not found."));
+
         if (orderDTO.getOrderStatus() == OrderStatus.EM_PROCESSAMENTO) {
             entity.setStatus(OrderStatus.CANCELADO);
             for (Product product : entity.getCart().getProducts()) {
@@ -76,7 +77,8 @@ public class OrderService {
         } else {
             entity.setStatus(OrderStatus.FINALIZADO);
             for (Product product : entity.getCart().getProducts()) {
-                if(product.getQuantity() == 0) product.setActive(false);
+                if(product.getQuantity() <= 0) product.setActive(false);
+                product.setSelledQuantity(product.getSelledQuantity() + 1);
                 productRepository.save(product);
             }
         }

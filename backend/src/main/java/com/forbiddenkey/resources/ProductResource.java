@@ -40,7 +40,7 @@ public class ProductResource {
 
     @GetMapping(value = "/avaible")
     public ResponseEntity<List<ProductDTO>> findAllAvaible() {
-        List<ProductDTO> list = productService.findAll();
+        List<ProductDTO> list = productService.findAllAvaible();
         return ResponseEntity.ok().body(list);
     }
 
@@ -52,7 +52,7 @@ public class ProductResource {
 
     @GetMapping(value = "/mostSelled")
     public ResponseEntity<List<ProductDTO>> findMostSelled() {
-        List<ProductDTO> list = productService.findMostSelled(customerGamesService.findAll());
+        List<ProductDTO> list = productService.findMostSelled();
         return ResponseEntity.ok().body(list);
     }
 

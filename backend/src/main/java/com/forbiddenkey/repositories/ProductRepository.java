@@ -13,6 +13,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 
     List<Product> findByActiveTrue();
 
-    @Query(value = "SELECT * FROM TB_PRODUCT", nativeQuery = true)
-    List<Product> findMostSelled(List<Long> ids);
+    @Query(value = "SELECT TOP 5 * FROM TB_PRODUCT WHERE ACTIVE = TRUE AND SELLED_QUANTITY != 0 ORDER BY SELLED_QUANTITY DESC", nativeQuery = true)
+    List<Product> findMostSelled();
 }

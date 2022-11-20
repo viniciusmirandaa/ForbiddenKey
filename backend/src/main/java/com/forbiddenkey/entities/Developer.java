@@ -37,14 +37,4 @@ public class Developer extends DomainEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public List<Product> getProducts() {
-		return developerProduct;
-	}
-
-	public void setProducts(List<Product> products) {
-		this.developerProduct = products;
-	}
-	
-	
 }

@@ -20,13 +20,13 @@ public class CustomerGamesResource {
     @Autowired
     private CustomerService customerService;
 
-    @GetMapping
-    public ResponseEntity<List<CustomerGames>> findAll(){
-        List<CustomerGames> list = customerGamesService.findAll();
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<CustomerGamesDTO>> findAll(){
+        List<CustomerGamesDTO> list = customerGamesService.findAll();
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping(value = "/customerGames")
+    @GetMapping
     public ResponseEntity<List<CustomerGamesDTO>> findCustomerGames(){
         List<CustomerGamesDTO> list = customerGamesService.findCustomerGames(customerService.currentCustomerLogged().getId());
         return ResponseEntity.ok().body(list);
