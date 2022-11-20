@@ -48,16 +48,16 @@ public class OrderService {
     public OrderDTO insert(Cart cart) {
         Optional<Cart> obj = cartRepository.findById(cart.getId());
         var entity = obj.orElseThrow(() -> new ResourceNotFoundException("Id {" + cart.getId() + "} not found."));
-        cart.setCurrentCart(false);
+        entity.setCurrentCart(false);
 
-        for (Product prod : cart.getProducts()) {
+        for (Product prod : entity.getProducts()) {
             prod.setQuantity(prod.getQuantity() - 1);
             productRepository.save(prod);
         }
 
-        var order = new Order(cart.getCustomer(), cart, OrderStatus.EM_PROCESSAMENTO, createProtocol());
+        var order = new Order(entity.getCustomer(), entity, OrderStatus.EM_PROCESSAMENTO, createProtocol());
 
-        cartRepository.save(cart);
+        cartRepository.save(entity);
         order = orderRepository.save(order);
 
         return new OrderDTO(order);

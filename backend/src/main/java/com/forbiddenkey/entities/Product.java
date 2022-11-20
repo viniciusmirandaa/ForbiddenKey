@@ -4,14 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -38,6 +31,8 @@ public class Product extends DomainEntity {
     private Set<Category> categories = new HashSet<>();
     @ManyToMany(mappedBy = "products")
     private Set<Cart> carts = new HashSet<>();
+    @OneToMany(mappedBy = "product")
+    private List<CustomerGames> customerGames = new ArrayList<>();
 
     public Product() {
     }
@@ -59,6 +54,10 @@ public class Product extends DomainEntity {
         this.launchDate = launchDate;
         this.imgUrl = imgUrl;
         this.active = active;
+    }
+
+    public List<CustomerGames> getCustomerGames() {
+        return customerGames;
     }
 
     public Set<Cart> getCarts() {
