@@ -6,11 +6,13 @@ import com.forbiddenkey.entities.Customer;
 import com.forbiddenkey.repositories.BannerRepository;
 import com.forbiddenkey.repositories.CardRepository;
 import com.forbiddenkey.repositories.CustomerRepository;
+import com.forbiddenkey.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,8 +26,9 @@ public class CardService {
 
     @Transactional(readOnly = true)
     public List<CardDTO> findAll(Customer customer) {
-        List<Card> list = cardRepository.findByCard(customer.getId());
-        return list.stream().map(CardDTO::new).collect(Collectors.toList());
+        Optional<List<Card>> list = cardRepository.findByCard(customer.getId());
+        var entityList = list.orElseThrow(() -> new ResourceNotFoundException("O cliente não possui cartão vinculado a ele."));
+        return entityList.stream().map(CardDTO::new).collect(Collectors.toList());
     }
 
     @Transactional

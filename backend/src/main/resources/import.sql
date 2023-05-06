@@ -1,10 +1,14 @@
 INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('Vinicius', 'Miranda', 'vinicius@gmail.com', '$2a$10$eACCYoNOHEqXve8aIWT8Nu3PkMXWBaOxJ9aORUYzfMQCbVBIhZ8tG');
 INSERT INTO tb_admin (user_id) VALUES (1);
 
+INSERT INTO tb_user (first_name, last_name, email, password) VALUES ('Bob', 'Jhonson', 'bob@gmail.com', '$2a$10$SOd7PVesN6mUEO5ecYRyR.XHYcLbLX/jue.t2m55N.YyoV3ZvS61i');
+INSERT INTO tb_customer (user_id) VALUES (2);
+
 INSERT INTO tb_role (authority) VALUES ('ROLE_CUSTOMER');
 INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
 
 INSERT INTO tb_user_role (user_id, role_id) VALUES (1, 2);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 1);
 
 INSERT INTO tb_developer (name) VALUES ('Rocksteady Studios');
 INSERT INTO tb_developer (name) VALUES ('NetherRealm Studios, QLOC, Shiver');
@@ -147,3 +151,7 @@ INSERT INTO tb_banner (name, created_at) VALUES ('MASTERCARD', NOW());
 INSERT INTO tb_banner (name, created_at) VALUES ('ELO', NOW());
 INSERT INTO tb_banner (name, created_at) VALUES ('AMERICAN EXPRESS', NOW());
 INSERT INTO tb_banner (name, created_at) VALUES ('MAESTRO', NOW());
+
+UPDATE tb_product set selled_quantity = 2 where id = 1;
+UPDATE tb_product set selled_quantity = 3 where id = 2;
+UPDATE tb_product set selled_quantity = 1 where id = 3;
