@@ -36,4 +36,10 @@ public class CardResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(cardDTO.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<CardDTO> delete(@PathVariable Long id){
+        cardService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
