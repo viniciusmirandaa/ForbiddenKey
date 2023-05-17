@@ -36,7 +36,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String[] CLIENT_ = {"/carts/**", "/cards/**", "/customerGames/**"};
 
-    private static final String[] USER = {"/customers/**"};
+    private static final String[] USER = {"/customers/**", "/banners/**"};
 
     private static final String[] ADMIN = {"/admins/**"};
 
