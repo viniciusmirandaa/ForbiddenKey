@@ -45,6 +45,7 @@ public class OrderDTO implements Serializable {
         this.cartDTO = new CartDTO(entity.getCart(), entity.getCart().getProducts());
         this.orderStatus = entity.getStatus();
         this.protocol = entity.getProtocol();
+        this.cardDTO = new CardDTO(entity.getCard());
     }
 
     public OrderDTO(Order entity, Card card) {
@@ -52,7 +53,6 @@ public class OrderDTO implements Serializable {
         this.cartDTO = new CartDTO(entity.getCart(), entity.getCart().getProducts());
         this.orderStatus = entity.getStatus();
         this.protocol = entity.getProtocol();
-        this.cardDTO = new CardDTO(card);
     }
 
     public Long getId() {

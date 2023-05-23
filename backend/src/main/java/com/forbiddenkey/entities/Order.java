@@ -1,5 +1,6 @@
 package com.forbiddenkey.entities;
 
+import com.forbiddenkey.dto.card.CardDTO;
 import com.forbiddenkey.entities.Enum.OrderStatus;
 
 import javax.persistence.*;
@@ -21,6 +22,18 @@ public class Order extends DomainEntity {
     private OrderStatus status;
 
     private String protocol;
+
+    @ManyToOne
+    @JoinColumn(name = "card_id")
+    private Card card;
+
+    public Card getCard() {
+        return card;
+    }
+
+    public void setCard(Card card) {
+        this.card = card;
+    }
 
     public Order() {
     }

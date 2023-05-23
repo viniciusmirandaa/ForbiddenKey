@@ -58,9 +58,10 @@ public class OrderService {
         var order = new Order(entity.getCustomer(), entity, OrderStatus.EM_PROCESSAMENTO, createProtocol());
 
         cartRepository.save(entity);
+        order.setCard(cardRepository.findById(id).get());
         order = orderRepository.save(order);
 
-        return new OrderDTO(order, cardRepository.findById(id).get());
+        return new OrderDTO(order);
     }
 
     @Transactional
