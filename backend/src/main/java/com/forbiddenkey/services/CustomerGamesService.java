@@ -46,9 +46,10 @@ public class CustomerGamesService {
     }
 
     @Transactional
-    public CustomerGamesDTO update(CustomerGamesDTO customerGamesDTO) {
-        var customerGames = customerGamesRepository.findById(customerGamesDTO.getId()).get();
+    public CustomerGamesDTO update(Long id) {
+        var customerGames = customerGamesRepository.findById(id).get();
         customerGames.setSeen(true);
+        customerGamesRepository.save(customerGames);
         return new CustomerGamesDTO(customerGames);
     }
 

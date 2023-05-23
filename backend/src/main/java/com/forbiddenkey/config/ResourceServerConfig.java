@@ -34,7 +34,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     private static final String[] CLIENT_OR_ADMIN = {"/products/**", "/categories/**", "/developers/**", "/distributors/**"};
 
-    private static final String[] CLIENT_ = {"/carts/**", "/cards/**", "/customerGames/**"};
+    private static final String[] CLIENT_ = {"/carts/**", "/cards/**", "//**"};
 
     private static final String[] USER = {"/customers/**", "/banners/**"};
 
@@ -62,6 +62,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, USER).hasAnyRole("CUSTOMER", "ADMIN")
                 .antMatchers(HttpMethod.GET, "/orders/**").hasAnyRole("CUSTOMER", "ADMIN")
                 .antMatchers("/orders/**").hasAnyRole("CUSTOMER")
+                .antMatchers("/customerGames/**").hasAnyRole("CUSTOMER", "ADMIN")
                 .antMatchers(HttpMethod.PUT, USER).hasAnyRole("CUSTOMER")
                 .antMatchers(CLIENT_).hasAnyRole("CUSTOMER")
                 .antMatchers(ADMIN).hasAnyRole("ADMIN")

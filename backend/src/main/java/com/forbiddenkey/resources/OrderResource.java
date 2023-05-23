@@ -42,9 +42,9 @@ public class OrderResource {
         return ResponseEntity.ok().body(list);
     }
 
-    @PostMapping
-    public ResponseEntity<OrderDTO> insert() {
-        var orderDto = orderService.insert(cartService.findCurrentCart(customerService.currentCustomerLogged()));
+    @PostMapping(value = "/{id}")
+    public ResponseEntity<OrderDTO> insert(@PathVariable Long id) {
+        var orderDto = orderService.insert(cartService.findCurrentCart(customerService.currentCustomerLogged()), id);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(orderDto.getId()).toUri();
         return ResponseEntity.created(uri).body(orderDto);

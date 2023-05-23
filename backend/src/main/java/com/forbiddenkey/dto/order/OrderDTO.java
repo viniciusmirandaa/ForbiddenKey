@@ -1,6 +1,8 @@
 package com.forbiddenkey.dto.order;
 
+import com.forbiddenkey.dto.card.CardDTO;
 import com.forbiddenkey.dto.cart.CartDTO;
+import com.forbiddenkey.entities.Card;
 import com.forbiddenkey.entities.Enum.OrderStatus;
 import com.forbiddenkey.entities.Order;
 
@@ -18,6 +20,16 @@ public class OrderDTO implements Serializable {
 
     private String protocol;
 
+    private CardDTO cardDTO;
+
+    public CardDTO getCardDTO() {
+        return cardDTO;
+    }
+
+    public void setCardDTO(CardDTO cardDTO) {
+        this.cardDTO = cardDTO;
+    }
+
     public OrderDTO() {
     }
 
@@ -33,6 +45,14 @@ public class OrderDTO implements Serializable {
         this.cartDTO = new CartDTO(entity.getCart(), entity.getCart().getProducts());
         this.orderStatus = entity.getStatus();
         this.protocol = entity.getProtocol();
+    }
+
+    public OrderDTO(Order entity, Card card) {
+        this.id = entity.getId();
+        this.cartDTO = new CartDTO(entity.getCart(), entity.getCart().getProducts());
+        this.orderStatus = entity.getStatus();
+        this.protocol = entity.getProtocol();
+        this.cardDTO = new CardDTO(card);
     }
 
     public Long getId() {

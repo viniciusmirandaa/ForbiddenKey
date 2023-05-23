@@ -32,9 +32,9 @@ public class CustomerGamesResource {
         return ResponseEntity.ok().body(list);
     }
 
-    @PutMapping
-    public ResponseEntity<CustomerGamesDTO> update(@RequestBody CustomerGamesDTO customerGamesDTO){
-        customerGamesDTO = customerGamesService.update(customerGamesDTO);
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<CustomerGamesDTO> update(@PathVariable Long id){
+        var customerGamesDTO = customerGamesService.update(id);
         return ResponseEntity.ok().body(customerGamesDTO);
     }
 

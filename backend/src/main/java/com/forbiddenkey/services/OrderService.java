@@ -6,10 +6,7 @@ import com.forbiddenkey.entities.Customer;
 import com.forbiddenkey.entities.Enum.OrderStatus;
 import com.forbiddenkey.entities.Order;
 import com.forbiddenkey.entities.Product;
-import com.forbiddenkey.repositories.CartRepository;
-import com.forbiddenkey.repositories.CustomerRepository;
-import com.forbiddenkey.repositories.OrderRepository;
-import com.forbiddenkey.repositories.ProductRepository;
+import com.forbiddenkey.repositories.*;
 import com.forbiddenkey.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +30,9 @@ public class OrderService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private CardRepository cardRepository;
+
     @Transactional(readOnly = true)
     public OrderDTO findById(Long id) {
         return new OrderDTO(orderRepository.findById(id).get());
@@ -45,7 +45,7 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderDTO insert(Cart cart) {
+    public OrderDTO insert(Cart cart, Long id) {
         Optional<Cart> obj = cartRepository.findById(cart.getId());
         var entity = obj.orElseThrow(() -> new ResourceNotFoundException("Id {" + cart.getId() + "} not found."));
         entity.setCurrentCart(false);
@@ -60,7 +60,7 @@ public class OrderService {
         cartRepository.save(entity);
         order = orderRepository.save(order);
 
-        return new OrderDTO(order);
+        return new OrderDTO(order, cardRepository.findById(id).get());
     }
 
     @Transactional
