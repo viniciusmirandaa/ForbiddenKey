@@ -4,6 +4,7 @@ import com.forbiddenkey.dto.card.CardDTO;
 import com.forbiddenkey.entities.Enum.OrderStatus;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.time.LocalDate;
 
 @Entity

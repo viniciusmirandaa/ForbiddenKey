@@ -7,6 +7,7 @@ import com.forbiddenkey.entities.Enum.OrderStatus;
 import com.forbiddenkey.entities.Order;
 
 import java.io.Serializable;
+import java.time.Instant;
 
 public class OrderDTO implements Serializable {
 
@@ -22,12 +23,22 @@ public class OrderDTO implements Serializable {
 
     private CardDTO cardDTO;
 
+    private Instant orderCreatDate;
+
     public CardDTO getCardDTO() {
         return cardDTO;
     }
 
     public void setCardDTO(CardDTO cardDTO) {
         this.cardDTO = cardDTO;
+    }
+
+    public Instant getOrderCreatDate() {
+        return orderCreatDate;
+    }
+
+    public void setOrderCreatDate() {
+        this.orderCreatDate = Instant.now();
     }
 
     public OrderDTO() {
@@ -38,6 +49,7 @@ public class OrderDTO implements Serializable {
         this.cartDTO = cartDTO;
         this.orderStatus = orderStatus;
         this.protocol = protocol;
+        this.setOrderCreatDate();
     }
 
     public OrderDTO(Order entity) {
@@ -46,6 +58,7 @@ public class OrderDTO implements Serializable {
         this.orderStatus = entity.getStatus();
         this.protocol = entity.getProtocol();
         this.cardDTO = new CardDTO(entity.getCard());
+        this.setOrderCreatDate();
     }
 
     public OrderDTO(Order entity, Card card) {
@@ -53,6 +66,7 @@ public class OrderDTO implements Serializable {
         this.cartDTO = new CartDTO(entity.getCart(), entity.getCart().getProducts());
         this.orderStatus = entity.getStatus();
         this.protocol = entity.getProtocol();
+        this.setOrderCreatDate();
     }
 
     public Long getId() {
