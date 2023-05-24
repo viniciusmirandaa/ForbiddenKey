@@ -9,6 +9,8 @@ import com.forbiddenkey.entities.Order;
 import java.io.Serializable;
 import java.time.Instant;
 
+import static org.springframework.data.util.CastUtils.cast;
+
 public class OrderDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,7 +40,7 @@ public class OrderDTO implements Serializable {
     }
 
     public void setOrderCreatDate() {
-        this.orderCreatDate = Instant.now();
+        this.orderCreatDate = Instant.now().minusSeconds(10800);
     }
 
     public OrderDTO() {
