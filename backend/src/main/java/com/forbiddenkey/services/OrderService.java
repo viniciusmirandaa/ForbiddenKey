@@ -65,11 +65,11 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderDTO update(OrderDTO orderDTO) {
-        Optional<Order> obj = orderRepository.findById(orderDTO.getId());
-        var entity = obj.orElseThrow(() -> new ResourceNotFoundException("Id {" + orderDTO.getId() + "} not found."));
+    public OrderDTO update(Long id, OrderDTO orderDTO) {
+        Optional<Order> obj = orderRepository.findById(id);
+        var entity = obj.orElseThrow(() -> new ResourceNotFoundException("Id {" + id + "} not found."));
 
-        if (orderDTO.getOrderStatus() == OrderStatus.EM_PROCESSAMENTO) {
+        if (orderDTO.getOrderStatus() == OrderStatus.CANCELADO) {
             entity.setStatus(OrderStatus.CANCELADO);
             for (Product product : entity.getCart().getProducts()) {
                 product.setQuantity(product.getQuantity() + 1);

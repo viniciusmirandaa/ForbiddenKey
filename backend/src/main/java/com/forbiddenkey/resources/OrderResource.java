@@ -50,9 +50,9 @@ public class OrderResource {
         return ResponseEntity.created(uri).body(orderDto);
     }
 
-    @PutMapping
-    public ResponseEntity<OrderDTO> updateStatus(@RequestBody OrderDTO orderDTO){
-        orderDTO = orderService.update(orderDTO);
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<OrderDTO> updateStatus(@PathVariable Long id, @RequestBody OrderDTO orderDTO){
+        orderDTO = orderService.update(id, orderDTO);
         if(orderDTO.getOrderStatus() == OrderStatus.FINALIZADO) customerGamesService.insert(orderDTO);
         return ResponseEntity.ok().body(orderDTO);
     }
