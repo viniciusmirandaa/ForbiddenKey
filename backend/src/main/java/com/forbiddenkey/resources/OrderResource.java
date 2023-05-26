@@ -42,6 +42,12 @@ public class OrderResource {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping(value = "/allCustomers")
+    public ResponseEntity<List<OrderDTO>> findAllCustomers() {
+        List<OrderDTO> list = orderService.findAllCustomers();
+        return ResponseEntity.ok().body(list);
+    }
+
     @PostMapping(value = "/{id}")
     public ResponseEntity<OrderDTO> insert(@PathVariable Long id) {
         var orderDto = orderService.insert(cartService.findCurrentCart(customerService.currentCustomerLogged()), id);

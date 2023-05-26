@@ -44,6 +44,12 @@ public class OrderService {
         return orders.stream().map(OrderDTO::new).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<OrderDTO> findAllCustomers() {
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().map(OrderDTO::new).collect(Collectors.toList());
+    }
+
     @Transactional
     public OrderDTO insert(Cart cart, Long id) {
         Optional<Cart> obj = cartRepository.findById(cart.getId());
