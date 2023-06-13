@@ -2,7 +2,10 @@ package com.forbiddenkey.entities;
 
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 
+import javax.management.InstanceAlreadyExistsException;
 import javax.persistence.*;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +14,8 @@ import java.util.Set;
 @Entity
 @Table(name = "tb_cart")
 public class Cart extends DomainEntity {
+
+    private Instant expirationDate = Instant.now().plus(Duration.ofMillis(40000));
 
     @ManyToOne()
     @JoinColumn(name = "customer")
@@ -30,6 +35,18 @@ public class Cart extends DomainEntity {
     public Cart(Customer customer, Boolean currentCart) {
         this.customer = customer;
         this.currentCart = currentCart;
+    }
+
+    public Instant getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Instant expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
     }
 
     public Set<Product> getProducts() {

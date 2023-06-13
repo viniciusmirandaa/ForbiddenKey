@@ -19,12 +19,15 @@ public class CustomerGamesDTO implements Serializable {
 
     private boolean isSeen;
 
+    private OrderDTO orderDTO;
+
     public CustomerGamesDTO() {
     }
 
-    public CustomerGamesDTO(Long id, ProductDTO productDTO, String activationKey, boolean isSeen) {
+    public CustomerGamesDTO(Long id, ProductDTO productDTO, OrderDTO orderDTO, String activationKey, boolean isSeen) {
         this.id = id;
         this.productDTO = productDTO;
+        this.orderDTO = orderDTO;
         this.activationKey = activationKey;
         this.isSeen = isSeen;
     }
@@ -32,8 +35,21 @@ public class CustomerGamesDTO implements Serializable {
     public CustomerGamesDTO(CustomerGames entity) {
         this.id = entity.getId();
         this.productDTO = new ProductDTO(entity.getProduct());
+        this.orderDTO = new OrderDTO(entity.getOrder().getId(), entity.getOrder().getStatus(), entity.getOrder().getProtocol());
         this.activationKey = entity.getActivationKey();
         this.isSeen = entity.isSeen();
+    }
+
+    public void setSeen(boolean seen) {
+        isSeen = seen;
+    }
+
+    public OrderDTO getOrderDTO() {
+        return orderDTO;
+    }
+
+    public void setOrderDTO(OrderDTO orderDTO) {
+        this.orderDTO = orderDTO;
     }
 
     public boolean isSeen() {

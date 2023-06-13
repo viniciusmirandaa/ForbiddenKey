@@ -14,6 +14,10 @@ public class CustomerGames extends DomainEntity {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     private String activationKey;
 
     private boolean isSeen;
@@ -21,11 +25,20 @@ public class CustomerGames extends DomainEntity {
     public CustomerGames() {
     }
 
-    public CustomerGames(Product product, Customer customer, String activationKey, boolean isSeen) {
+    public CustomerGames(Product product, Customer customer, Order order, String activationKey, boolean isSeen) {
         this.product = product;
         this.customer = customer;
+        this.order = order;
         this.activationKey = activationKey;
         this.isSeen = isSeen;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public boolean isSeen() {

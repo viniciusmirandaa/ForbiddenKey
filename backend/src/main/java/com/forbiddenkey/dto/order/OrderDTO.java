@@ -54,20 +54,19 @@ public class OrderDTO implements Serializable {
         this.setOrderCreatDate();
     }
 
+    public OrderDTO(Long id, OrderStatus orderStatus, String protocol) {
+        this.id = id;
+        this.orderStatus = orderStatus;
+        this.protocol = protocol;
+        this.setOrderCreatDate();
+    }
+
     public OrderDTO(Order entity) {
         this.id = entity.getId();
         this.cartDTO = new CartDTO(entity.getCart(), entity.getCart().getProducts());
         this.orderStatus = entity.getStatus();
         this.protocol = entity.getProtocol();
         this.cardDTO = new CardDTO(entity.getCard());
-        this.setOrderCreatDate();
-    }
-
-    public OrderDTO(Order entity, Card card) {
-        this.id = entity.getId();
-        this.cartDTO = new CartDTO(entity.getCart(), entity.getCart().getProducts());
-        this.orderStatus = entity.getStatus();
-        this.protocol = entity.getProtocol();
         this.setOrderCreatDate();
     }
 

@@ -18,7 +18,7 @@ public class CartDTO implements Serializable {
 
     private CustomerDTO customerDTO;
 
-    private List<ProductDTO> products = new ArrayList<>();
+    private List<ProductDTO> productsDTO = new ArrayList<>();
 
     private Boolean currentCart;
 
@@ -26,7 +26,7 @@ public class CartDTO implements Serializable {
 
     public CartDTO(Cart entity, Set<Product> list) {
         this(entity);
-        list.forEach(Product -> this.products.add(new ProductDTO(Product)));
+        list.forEach(Product -> this.productsDTO.add(new ProductDTO(Product)));
     }
 
     public CartDTO(Cart entity) {
@@ -62,7 +62,7 @@ public class CartDTO implements Serializable {
     }
 
     public List<ProductDTO> getProducts() {
-        return products;
+        return productsDTO;
     }
 
     public Boolean getCurrentCart() {

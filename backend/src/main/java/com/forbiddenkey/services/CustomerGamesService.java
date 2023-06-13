@@ -40,7 +40,7 @@ public class CustomerGamesService {
         var order = orderRepository.findById(orderDTO.getId()).get();
 
         for (Product product : order.getCart().getProducts()) {
-            var customerGames = new CustomerGames(product, order.getCustomer(), createActivationKey(), false);
+            var customerGames = new CustomerGames(product, order.getCustomer(), order, createActivationKey(), false);
             customerGamesRepository.save(customerGames);
         }
     }
