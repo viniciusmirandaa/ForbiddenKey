@@ -30,6 +30,11 @@ public class CartService {
     private CustomerRepository customerRepository;
 
     @Transactional(readOnly = true)
+    public List<Cart> findAllCarts() {
+        return cartRepository.findAllByCartTrue();
+    }
+
+    @Transactional(readOnly = true)
     public Cart findCurrentCart(Customer customer) {
         Optional<Cart> obj = cartRepository.findByCustomerIdAndCurrentCartTrue(customer.getId());
         return obj.orElseThrow(() -> new ResourceNotFoundException("Cart not found."));
