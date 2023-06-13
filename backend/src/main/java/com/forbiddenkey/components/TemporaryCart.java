@@ -28,12 +28,12 @@ public class TemporaryCart {
     @Autowired
     private CartRepository cartRepository;
 
-    @Scheduled(fixedRate = 20000)
+    @Scheduled(fixedRate = 60000)
     public void verifyCartActualDate() {
         try {
             for (Cart cart: cartService.findAllCarts()){
                 if (cart.getProducts().size() != 0){
-                    cart.setExpirationDate(cart.getExpirationDate() - 20);
+                    cart.setExpirationDate(cart.getExpirationDate() - 60000);
                     cartRepository.save(cart);
                 }
 

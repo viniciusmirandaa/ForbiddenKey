@@ -70,6 +70,9 @@ public class CartService {
             var product = obj.orElseThrow(() -> new ResourceNotFoundException("Id {" + id + "} not found."));
             currentCart.getProducts().remove(product);
             cartTotalValue(currentCart);
+            if (currentCart.getProducts().size() == 0) {
+                currentCart.setDiscountValue(0d);
+            }
             return new CartDTO(currentCart, currentCart.getProducts());
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id {" + id + "} not found.");
@@ -83,10 +86,10 @@ public class CartService {
         }
         if (isBirthDay(cart.getCustomer())) {
             var discountValue = 25d;
-            cart.setTotalValue(totalValue - discountValue);
+            cart.setTotalValue((totalValue > 0) ? (totalValue - discountValue) : totalValue);
             cart.setDiscountValue(cart.getDiscountValue() + discountValue);
         } else cart.setTotalValue(totalValue);
-        cart.setExpirationDate(40);
+        cart.setExpirationDate(120000);
         cartRepository.save(cart);
     }
 

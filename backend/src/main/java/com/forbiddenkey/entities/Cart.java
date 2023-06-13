@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "tb_cart")
 public class Cart extends DomainEntity {
 
-    private int expirationDate = 40;
+    private int expirationDate = 120000;
 
     private Double discountValue = 0d;
 
