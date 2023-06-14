@@ -15,7 +15,9 @@ import java.util.Set;
 @Table(name = "tb_cart")
 public class Cart extends DomainEntity {
 
-    private Instant expirationDate = Instant.now().plus(Duration.ofMillis(40000));
+    private int expirationDate = 40;
+
+    private Double discountValue = 0d;
 
     @ManyToOne()
     @JoinColumn(name = "customer")
@@ -37,11 +39,19 @@ public class Cart extends DomainEntity {
         this.currentCart = currentCart;
     }
 
-    public Instant getExpirationDate() {
+    public Double getDiscountValue() {
+        return discountValue;
+    }
+
+    public void setDiscountValue(Double discountValue) {
+        this.discountValue = discountValue;
+    }
+
+    public int getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(Instant expirationDate) {
+    public void setExpirationDate(int expirationDate) {
         this.expirationDate = expirationDate;
     }
 

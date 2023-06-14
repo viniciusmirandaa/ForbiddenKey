@@ -81,13 +81,17 @@ public class CartService {
         for (Product i : cart.getProducts()) {
             totalValue += i.getPrice();
         }
-        if(isBirthDay(cart.getCustomer())) cart.setTotalValue(totalValue - 25d);
-        else cart.setTotalValue(totalValue);
+        if (isBirthDay(cart.getCustomer())) {
+            var discountValue = 25d;
+            cart.setTotalValue(totalValue - discountValue);
+            cart.setDiscountValue(cart.getDiscountValue() + discountValue);
+        } else cart.setTotalValue(totalValue);
+        cart.setExpirationDate(40);
         cartRepository.save(cart);
     }
 
     private boolean isBirthDay(Customer customer) {
-        if(customer.getBirthDate() == null) return false;
+        if (customer.getBirthDate() == null) return false;
         LocalDate localDate = LocalDate.now();
         int day = customer.getBirthDate().getDayOfMonth();
         Month month = customer.getBirthDate().getMonth();

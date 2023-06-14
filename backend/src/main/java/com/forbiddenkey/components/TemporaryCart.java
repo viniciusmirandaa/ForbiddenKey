@@ -1,6 +1,8 @@
 package com.forbiddenkey.components;
 
 import com.forbiddenkey.entities.Cart;
+import com.forbiddenkey.entities.Product;
+import com.forbiddenkey.repositories.CartRepository;
 import com.forbiddenkey.services.CartService;
 import com.forbiddenkey.services.CustomerService;
 import com.forbiddenkey.services.exceptions.ResourceNotFoundException;
@@ -12,34 +14,39 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityNotFoundException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 @Component
 public class TemporaryCart {
 
     @Autowired
-    private CustomerService customerService;
-
-    @Autowired
     private CartService cartService;
 
-    @Scheduled(fixedRate = 5000)
+    @Autowired
+    private CartRepository cartRepository;
+
+    @Scheduled(fixedRate = 20000)
     public void verifyCartActualDate() {
         try {
-            var carts = cartService.findAllCarts();
-            for (Cart cart: carts){
-                cart.setExpirationDate(Instant.now().minus(Duration.ofMillis(20000)));
-                var value = cart.getExpirationDate();
+            for (Cart cart: cartService.findAllCarts()){
+                if (cart.getProducts().size() != 0){
+                    cart.setExpirationDate(cart.getExpirationDate() - 20);
+                    cartRepository.save(cart);
+                }
+
+                if (cart.getExpirationDate() == 0){
+                    List<Product> productIterator = new ArrayList<>(cart.getProducts());
+                    for (Product product: productIterator){
+                        cartService.removeItem(cart, product.getId());
+                    }
+                    cartRepository.save(cart);
+                }
             }
-
-            System.out.println("as");
-//            var cart = cartService.findCurrentCart(customerService.currentCustomerLogged());
-
-//            cart.setExpirationDate(Instant.now().minus(Duration.ofMillis(20000)));
-//            System.out.println("O carrinho possui agora menos 20 segundos de vida, restando apenas:"
-//                    + cart.getExpirationDate());
-
-        } catch (ResourceNotFoundException e) {
-            return;
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Verificar o cron de expiração do carrinho.");
         }
     }
 }

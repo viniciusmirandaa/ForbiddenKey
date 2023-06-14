@@ -24,6 +24,8 @@ public class CartDTO implements Serializable {
 
     private Double totalValue;
 
+    private Double descontValue;
+
     public CartDTO(Cart entity, Set<Product> list) {
         this(entity);
         list.forEach(Product -> this.productsDTO.add(new ProductDTO(Product)));
@@ -34,12 +36,23 @@ public class CartDTO implements Serializable {
         this.customerDTO = new CustomerDTO(entity.getCustomer(), entity.getCustomer().getCards());
         this.currentCart = entity.getCurrentCart();
         this.totalValue = entity.getTotalValue();
+        this.descontValue = entity.getDiscountValue();
     }
 
-    public CartDTO(Long id, Long customer, Boolean currentCart, Double totalValue) {
+    public CartDTO(Long id, CustomerDTO customerDTO, Boolean currentCart, Double totalValue, Double descontValue) {
         this.id = id;
+        this.customerDTO = customerDTO;
         this.currentCart = currentCart;
         this.totalValue = totalValue;
+        this.descontValue = descontValue;
+    }
+
+    public Double getDescontValue() {
+        return descontValue;
+    }
+
+    public void setDescontValue(Double descontValue) {
+        this.descontValue = descontValue;
     }
 
     public CartDTO() {
