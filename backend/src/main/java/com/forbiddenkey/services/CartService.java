@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 @Service
 public class CartService {
 
+
+
     @Autowired
     private CartRepository cartRepository;
 
@@ -94,11 +96,16 @@ public class CartService {
     }
 
     private boolean isBirthDay(Customer customer) {
+
         if (customer.getBirthDate() == null) return false;
         LocalDate localDate = LocalDate.now();
         int day = customer.getBirthDate().getDayOfMonth();
         Month month = customer.getBirthDate().getMonth();
-
-        return day == localDate.getDayOfMonth() && month == localDate.getMonth();
+        return (day == localDate.getDayOfMonth() && month == localDate.getMonth() && canBeUsed(customer));
     }
+
+    private boolean canBeUsed(Customer customer){
+        return cartRepository.findCartByUsedCoupon(customer) == null;
+    }
+
 }
